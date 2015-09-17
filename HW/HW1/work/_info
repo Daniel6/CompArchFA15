@@ -1,0 +1,52 @@
+m255
+K4
+z2
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 dc:/CA15/HW1
+vhw1
+Z1 !s110 1442079472
+!i10b 1
+!s100 THXnL;2BAY@0<l>0Ao<Za3
+Ij>JH4Vd_X<h]B;M6eiOaz3
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+R0
+Z3 w1442079470
+Z4 8hw1.v
+Z5 Fhw1.v
+L0 7
+Z6 OP;L;10.4a;61
+r1
+!s85 0
+31
+Z7 !s108 1442079472.000000
+Z8 !s107 hw1.v|
+Z9 !s90 -reportprogress|300|-work|work|hw1.v|
+!s101 -O0
+!i113 1
+Z10 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact -O0
+vhw1test
+R1
+!i10b 1
+!s100 hWMG?7MfL5f3YM`QRkUn70
+IfKh]kz:zA06717l3oKP9J1
+R2
+R0
+R3
+R4
+R5
+L0 1
+R6
+r1
+!s85 0
+31
+R7
+R8
+R9
+!s101 -O0
+!i113 1
+R10
