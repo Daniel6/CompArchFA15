@@ -1,6 +1,6 @@
 `define AND and #50
 `define NAND nand #50
-`define BUFIF1 bufif1 #50
+`define OR or #50
 `define NOT not #50
 
 module behavioralMultiplexer(out, address0,address1, in0,in1,in2,in3);
@@ -18,16 +18,20 @@ input address0, address1;
 input in0, in1, in2, in3;
 wire nAddress0, nAddress1;
 wire control0, control1, control2, control3;
+wire out0, out1, out2, out3, inter0, inter1;
 `NOT not0(nAddress0, address0);
 `NOT not1(nAddress1, address1);
 `AND and0(control0, nAddress0, nAddress1);
 `AND and1(control1, address0, nAddress1);
 `AND and2(control2, nAddress0, address1);
 `AND and3(control3, address0, address1);
-`BUFIF1 in0buff(out, in0, control0);
-`BUFIF1 in1buff(out, in1, control1);
-`BUFIF1 in2buff(out, in2, control2);
-`BUFIF1 in3buff(out, in3, control3);
+`AND and4(out0, control0, in0);
+`AND and5(out1, control1, in1);
+`AND and6(out2, control2, in2);
+`AND and7(out3, control3, in3);
+`OR or0(inter0, out0, out1);
+`OR or1(inter1, out2, out3);
+`OR or2(out, inter0, inter1);
 endmodule
 
 
