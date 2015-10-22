@@ -1,0 +1,1 @@
+The module decoder1to32 takes an input (either 1 or 0) and right-pads it with <address> amount of zeros. Then this padded value is assigned to the output. This results in a decoder as the <address>'th bit of output will be assigned to either 0 or 1 depending on the <enable> input, acting just like a 32bit decoder.
