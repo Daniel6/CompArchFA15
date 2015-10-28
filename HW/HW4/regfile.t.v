@@ -51,7 +51,7 @@ module hw4testbenchharness();
     begintest=0;
     #10;
     begintest=1;
-    #400;
+    #1000;
   end
 
   // Display test results ('dutpassed' signal) once 'endtest' goes high
@@ -196,14 +196,14 @@ output reg		Clk
 	ReadRegister2 = 5'd0;
 	#5 Clk=1; #5 Clk=0;
 
-	if (ReadData1 == 0 || ReadData2 == 0) begin
+	if (ReadData1 == WriteData || ReadData2 == WriteData) begin // check whether the value was written
 		dutpassed = 0;
 		$display("Test Case 5 Failed, was able to write non-zero value %d to register 0", WriteData);
 	end
 
 	// Test Case 6:
 	// Make sure the ports are reading correctly and that registers are being written to correctly
-	RegWrite 1;
+	RegWrite = 1;
 	for (i = 1; i < 32; i = i + 1) begin // Loop through all registers except the null register
 		WriteRegister = i;
 		WriteData = i;
