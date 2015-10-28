@@ -51,7 +51,7 @@ module hw4testbenchharness();
     begintest=0;
     #10;
     begintest=1;
-    #1000;
+    #400;
   end
 
   // Display test results ('dutpassed' signal) once 'endtest' goes high
@@ -89,7 +89,11 @@ output reg[4:0]		ReadRegister2,
 output reg[4:0]		WriteRegister,
 output reg		RegWrite,
 output reg		Clk
+
 );
+
+	// For For loops
+	integer i;
 
   // Initialize register driver signals
   initial begin
@@ -138,6 +142,80 @@ output reg		Clk
     $display("Test Case 2 Failed");
   end
 
+	// Test Case 3:
+	// Check whether register 2 can be written to
+	WriteRegister = 5'd2;
+	WriteData = 32'd12;
+	RegWrite = 1;
+	ReadRegister1 = 5'd2;
+	ReadRegister2 = 5'd2;
+	#5 Clk=1; #5 Clk=0; // Pulse Clock
+
+	if (ReadData1 != 12 || ReadData2 != 12) begin
+		dutpassed = 0;
+		$display("Test Case 3 Failed");
+	end
+
+	// Test Case 3b:
+	// Check whether disabling write enable will stop the register from being written to
+	WriteRegister = 5'd2;
+	WriteData = 32'd18;
+	RegWrite = 0;
+	ReadRegister1 = 5'd2;
+	ReadRegister2 = 5'd2;
+	#5 Clk=1; #5 Clk=0; // Pulse Clock
+
+	if (ReadData1 == WriteData || ReadData2 == WriteData) begin
+		dutpassed = 0;
+		$display("Test Case 3b Failed");
+	end
+
+	// Test Case 4:
+	// So we know we can write to registers, but what if we're writing too much?
+	// Check to make sure that only the desired register is being written to
+	WriteRegister = 5'd3; // The test bench has not touched register 3, and no other registers have been assigned to the value 7
+	WriteData = 32'd7; // This value should be unique amongst registers at this point in time
+	RegWrite = 1;
+	ReadRegister1 = 5'd3;
+
+	for (i = 0; i < 32; i = i + 1) begin
+		ReadRegister2 = i;
+		#5 Clk=1; #5 Clk=0; // Pulse Clock
+		if (ReadData1 == ReadData2 && i != 3) begin
+			dutpassed = 0;
+			$display("Test Case 4 Failed on Register %d", i);
+		end
+	end
+
+	// Test Case 5:
+	// Make sure register 0 is our null pointer
+	WriteRegister = 5'd0; 
+	WriteData = 32'd3;
+	RegWrite = 1; // Try to write a non zero value to register 0
+	ReadRegister1 = 5'd0;
+	ReadRegister2 = 5'd0;
+	#5 Clk=1; #5 Clk=0;
+
+	if (ReadData1 == 0 || ReadData2 == 0) begin
+		dutpassed = 0;
+		$display("Test Case 5 Failed, was able to write non-zero value %d to register 0", WriteData);
+	end
+
+	// Test Case 6:
+	// Make sure the ports are reading correctly and that registers are being written to correctly
+	RegWrite 1;
+	for (i = 1; i < 32; i = i + 1) begin // Loop through all registers except the null register
+		WriteRegister = i;
+		WriteData = i;
+		ReadRegister1 = i;
+		ReadRegister2 = i;
+		#5 Clk=1; #5 Clk=0;
+
+		if (ReadData1 != i || ReadData2 != i) begin
+			dutpassed = 0;
+			$display("Test Case 6 Failed for Register %d", i);
+		end
+	end
 
   // All done!  Wait a moment and signal test completion.
   #5
