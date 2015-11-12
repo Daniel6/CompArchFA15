@@ -4,9 +4,10 @@ Daniel Bishop
 ###Table of Contents
 1. [Specifications](#specifications)
   1. [I/O](#io)
-  2. [Operational Modes](#operational_modes)
-    1. [FSM](#finite_state_machine)
+  2. [Operational Modes](#operational-modes)
+    1. [FSM](#finite-state-machine)
   3. [Dimensions](#dimensions)
+2. [Block Diagram](#block-diagram)
 
 ###Specifications
 
@@ -21,6 +22,10 @@ System provides output to one LED whose state can either be ON or OFF.
 4. DIM: LED switches between ON and OFF states every hundredth of a seconds (100Hz frequency).  
 
 #####Finite State Machine  
-![FSM](http://i.imgur.com/S7b8XpO.png)  
+![fsm image](http://i.imgur.com/S7b8XpO.png)  
 
 ####Dimensions
+<TODO>
+
+###Block Diagram
+![block diagram image](block-diagram.png)
