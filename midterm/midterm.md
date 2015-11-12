@@ -91,4 +91,4 @@ This component takes a 4-bit number and shifts the bits to the left by one place
 |                      | 8         |                    | AND Gate          | 24        |
 |                      | 4         |                    | Inverter          | 4         |
 |                      | 4 OR Gate |                    |                   | 12        |
-| TOTAL                |           |                    |                   | 479       |
+| **TOTAL**            |           |                    |                   | **479**   |
