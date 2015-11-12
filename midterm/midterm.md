@@ -9,6 +9,9 @@ Daniel Bishop
   3. [Dimensions](#dimensions)
 2. [Block Diagram](#block-diagram)
 3. [Schematic](#schematic)
+  1. [Top Level](#total-circuit)
+  2. [Input Conditioner](#input-conditioner)
+  3. [Shifter](#shifter)
 
 ###Specifications
 
