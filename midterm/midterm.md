@@ -2,11 +2,11 @@
 Daniel Bishop
 
 ###Table of Contents
-1. [Specifications][]
-  1. [I/O][]
-  2. [Operational Modes][]
-    1. [Finite State Machine][]
-  3. [Dimensions][]]
+1. [Specifications](#specifications)
+  1. [I/O](#i\/o)
+  2. [Operational Modes](#operational modes)
+    1. [FSM](#finite state machine)
+  3. [Dimensions](#dimensions)
 
 ###Specifications
 ####I/O
