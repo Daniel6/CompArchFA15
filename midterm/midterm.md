@@ -31,7 +31,7 @@ System provides output to one LED whose state can either be ON or OFF.
 ![fsm image](http://i.imgur.com/S7b8XpO.png)  
 
 ####Dimensions
-<TODO>
+System Clock 32,768Hz
 
 ###Block Diagram
 ![block diagram image](block-diagram.png)
