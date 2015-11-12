@@ -55,4 +55,42 @@ The input conditioner synchronizes a noisy input signal (coming from the button)
 ![schematic shifter](left-shifter.png)
 This component takes a 4-bit number and shifts the bits to the left by one place on every clock cycle. The Least Significant Bit is filled with a 0.
 
-###Cost Breakdown
+###Cost Breakdown  
+
+| Component            | Quantity  | Sub-Component      | Sub-Sub-Component | Area Cost |
+|----------------------|-----------|--------------------|-------------------|-----------|
+| 15-bit Up-counter    | 1         |                    |                   |           |
+|                      | 15        | D flip-flop        |                   | 195       |
+|                      | 15        | Inverter           |                   | 15        |
+| 4-Stage Ring-Counter | 1         |                    |                   | 83        |
+| System Clock         | 1         |                    |                   | 2         |
+| 15-input XNOR Gate   | 1         |                    |                   |           |
+|                      | 29        | XNOR Gate          |                   |           |
+|                      | 58        |                    | NAND Gate         | 116       |
+|                      | 29        |                    | OR Gate           | 87        |
+| Input Conditioner    | 1         |                    |                   |           |
+|                      | 5         | D flip-flop        |                   | 65        |
+|                      | 2         | XOR Gate           |                   |           |
+|                      | 2         |                    | NAND Gate         | 4         |
+|                      | 2         |                    | AND Gate          | 6         |
+|                      | 2         |                    | OR Gate           | 6         |
+|                      | 1         | OR Gate            |                   | 3         |
+|                      | 2         | AND Gate           |                   | 6         |
+|                      | 1         | Inverter           |                   | 1         |
+|                      | 4         | 2-to-1 Multiplexer |                   |           |
+|                      | 8         |                    | AND Gate          | 24        |
+|                      | 4         |                    | Inverter          | 4         |
+|                      | 4         |                    | OR Gate           | 12        |
+|                      | 1         | Bit Shifter        |                   |           |
+|                      | 4         |                    | D flip-flop       | 52        |
+|                      | 1         | 6-bit up-counter   |                   |           |
+|                      | 6         |                    | D flip-flop       | 78        |
+|                      | 6         |                    | Inverter          | 6         |
+| D flip-flop          | 1         |                    |                   | 13        |
+| Inverter             | 1         |                    |                   | 1         |
+| 8-to-1 Multiplexer   | 1         |                    |                   |           |
+|                      | 4         | 2-to-1 Multiplexer |                   |           |
+|                      | 8         |                    | AND Gate          | 24        |
+|                      | 4         |                    | Inverter          | 4         |
+|                      | 4 OR Gate |                    |                   | 12        |
+| **TOTAL**            |           |                    |                   | **819**   |
