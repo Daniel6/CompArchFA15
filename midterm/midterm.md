@@ -10,8 +10,10 @@ Daniel Bishop
 2. [Block Diagram](#block-diagram)
 3. [Schematic](#schematic)
   1. [Top Level](#total-circuit)
-  2. [Input Conditioner](#input-conditioner)
-  3. [Shifter](#shifter)
+  2. [Up Counter](#up-counter)
+  3. [Input Conditioner](#input-conditioner)
+  4. [Shifter](#shifter)
+4. [Cost Breakdown](#cost-breakdown)
 
 ###Specifications
 
@@ -55,4 +57,38 @@ This component takes a 4-bit number and shifts the bits to the left by one place
 
 ###Cost Breakdown
 
-####Component Costs
+| Component            | Quantity  | Sub-Component      | Sub-Sub-Component | Area Cost |
+|----------------------|-----------|--------------------|-------------------|-----------|
+| 6-bit Up-counter     | 1         |                    |                   |           |
+|                      | 6         | D flip-flop        |                   | 78        |
+|                      | 6         | Inverter           |                   | 6         |
+| 4-Stage Ring-Counter | 1         |                    |                   | 83        |
+| System Clock         | 1         |                    |                   | 2         |
+| 10-input XNOR Gate   | 1         |                    |                   |           |
+|                      | 9         | XNOR Gate          |                   |           |
+|                      | 18        |                    | NAND Gate         | 36        |
+|                      | 9         |                    | OR Gate           | 27        |
+| Input Conditioner    | 1         |                    |                   |           |
+|                      | 5         | D flip-flop        |                   | 65        |
+|                      | 2         | XOR Gate           |                   |           |
+|                      | 2         |                    | NAND Gate         | 4         |
+|                      | 2         |                    | AND Gate          | 6         |
+|                      | 2         |                    | OR Gate           | 6         |
+|                      | 1         | OR Gate            |                   | 3         |
+|                      | 2         | AND Gate           |                   | 6         |
+|                      | 1         | Inverter           |                   | 1         |
+|                      | 4         | 2-to-1 Multiplexer |                   |           |
+|                      | 8         |                    | AND Gate          | 24        |
+|                      | 4         |                    | Inverter          | 4         |
+|                      | 4         |                    | OR Gate           | 12        |
+|                      | 1         | Bit Shifter        |                   |           |
+|                      | 4         |                    | D flip-flop       | 52        |
+| 2-to-1 Multiplexer   | 1         |                    |                   | 10        |
+| D flip-flop          | 1         |                    |                   | 13        |
+| Inverter             | 1         |                    |                   | 1         |
+| 8-to-1 Multiplexer   | 1         |                    |                   |           |
+|                      | 4         | 2-to-1 Multiplexer |                   |           |
+|                      | 8         |                    | AND Gate          | 24        |
+|                      | 4         |                    | Inverter          | 4         |
+|                      | 4 OR Gate |                    |                   | 12        |
+| TOTAL                |           |                    |                   | 479       |
