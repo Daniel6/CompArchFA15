@@ -28,4 +28,4 @@ System provides output to one LED whose state can either be ON or OFF.
 <TODO>
 
 ###Block Diagram
-![block diagram image](block-diagram.png)
+![block diagram image](/block-diagram.png)
