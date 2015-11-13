@@ -32,6 +32,8 @@ System provides output to one LED whose state can either be ON or OFF.
 
 ####Dimensions
 System Clock 32,768Hz
+Blinking Frequency 1Hz
+Dim Cycle 50% @ 1024Hz
 
 ###Block Diagram
 ![block diagram image](block-diagram.png)
