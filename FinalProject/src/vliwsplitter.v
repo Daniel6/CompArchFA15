@@ -26,7 +26,7 @@ module vliwsplitter
             // Split the vliw into individual instructions
             indexA = inst_len*(i)-1;
             indexB = inst_len*(i-1);
-            instruction[i-1] <= vliw[indexA:indexB];
+            instructions[i-1] <= vliw[indexA:indexB];
         end
     end
 endmodule
