@@ -1,4 +1,4 @@
-module test_instruction_module();
+module testInstructionMemory;
 
 reg clk;
 reg dutPass;
@@ -20,8 +20,8 @@ initial clk = 0;
 always #1 clk = !clk;
 
 initial begin 
-		$dumpfile("instruction_module.t.vcd");
-	    $dumpvars(0, test_instruction_module);
+		$dumpfile("instructionmemory.t.vcd");
+	    $dumpvars(0, testInstructionMemory);
 		dutPass = 1;
 		inputaddress = 0;
 		#4
