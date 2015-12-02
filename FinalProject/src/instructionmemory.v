@@ -11,7 +11,7 @@ module instructionmemory
 (
     input                       clk,
     input [31:0]                address,
-    output reg [32*cores-1:0]   dataOut;
+    output reg [32*cores-1:0]   dataOut
 )
 
     reg [32*cores-1:0] memory [2**32-1:0];
