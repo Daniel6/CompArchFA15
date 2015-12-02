@@ -6,7 +6,8 @@
 
 module instructionmemory 
 #(
-    cores = 1
+    cores = 1,
+    instructions = "one-core-memory.dat"
 )
 (
     input                       clk,
@@ -16,7 +17,7 @@ module instructionmemory
 
     reg [32*cores-1:0] memory [2**32-1:0];
 
-    // initial $readmemh("data.dat", mem);
+    initial $readmemh(instructions, memory);
 
     always @(posedge clk) begin
         dataOut <= memory[address];
