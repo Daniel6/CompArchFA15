@@ -1,14 +1,8 @@
 /*
-    Very Long Instruction Word Splitter
+    Instruction Decoder
     Triggered on positive edge of clock signal
 
-    Given a very long instruction word, output each instruction contained in the word
-    eg: Given very long instruction word [abcd] where a, b, c, and d are instructions,
-        output bus will output [a, b, c, d]
-
-    Parameters:
-        cores:      number of cores in CPU, also number of instructions in VLIW
-        inst_len:   number of bits needed to contain one instruction
+    Given a 32-bit instruction, output the relevant parts of the instruction as individual outputs.
 */
 
 module instructiondecoder
@@ -21,8 +15,7 @@ module instructiondecoder
     output reg[5:0]     func,
     output reg[4:0]     rs,
     output reg[4:0]     rt,
-    output reg[4:0]     rd,
-    output reg[4:0]     shft
+    output reg[4:0]     rd
     
 );
     always @(posedge clk) begin
@@ -30,12 +23,24 @@ module instructiondecoder
         rs = instruction[25:21];
         rt = instruction[20:16];
         rd = instruction[15:11];
-        shft = instruction[10:6];
         func = instruction[5:0];
         imm = instruction[15:0];
         target = instruction[25:0];
     end
 endmodule
+
+/*
+    Very Long Instruction Word Splitter
+    Triggered on positive edge of clock signal
+
+    Given a very long instruction word, output each instruction contained in the word
+    eg: Given very long instruction word [abcd] where a, b, c, and d are instructions,
+        output bus will output [a, b, c, d]
+
+    Parameters:
+        cores:      number of cores in CPU, also number of instructions in VLIW
+        inst_len:   number of bits needed to contain one instruction
+*/
 
 module vliwsplitter
 #(
