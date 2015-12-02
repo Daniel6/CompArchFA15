@@ -6,7 +6,7 @@ wire [63:0] two_output_instructions;
 
 wire [31:0] one_output_instructions;
 
-	instructionmemory #(1, "text.dat") dut1(.clk(clk), 
+	instructionmemory #(1, "one-core-memory.dat") dut1(.clk(clk), 
 																.address(inputaddress), 
 																.dataOut(one_output_instructions));
 	instructionmemory #(.cores(2),

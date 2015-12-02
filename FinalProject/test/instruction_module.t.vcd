@@ -1,5 +1,5 @@
 $date
-	Tue Dec  1 22:16:09 2015
+	Tue Dec  1 22:23:15 2015
 $end
 $version
 	Icarus Verilog
@@ -12,12 +12,12 @@ $var wire 32 ! one_output_instructions [31:0] $end
 $var wire 64 " two_output_instructions [63:0] $end
 $var reg 1 # clk $end
 $var reg 32 $ inputaddress [31:0] $end
-$scope module test_one_core $end
+$scope module dut1 $end
 $var wire 32 % address [31:0] $end
 $var wire 1 & clk $end
 $var reg 32 ' dataOut [31:0] $end
 $upscope $end
-$scope module test_two_core $end
+$scope module dut2 $end
 $var wire 32 ( address [31:0] $end
 $var wire 1 & clk $end
 $var reg 64 ) dataOut [63:0] $end
