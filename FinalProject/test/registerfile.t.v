@@ -41,13 +41,16 @@ module testRegisterFile;
 	always #1 clk = !clk;
 
 	initial begin
-		RegWrite = 1'b1;
-		WriteRegister = 5'b01111;
-		WriteData = 5'b10101;
-		#20
-		$display("Wrote %b to %b.", WriteData, WriteRegister);
-		ReadRegister1 = 5'b01111;
-		#20
-		$display("Read %b from %b.", ReadData1, ReadRegister1);
+
+		// ===============================================================================================================
+		// 1 Core Tests
+		RegWrite_1core = 1'b1;
+		WriteRegister_1core = 5'b01111;
+		WriteData_1core = 5'b10101;
+		#2;
+		$display("Wrote %b to %b.", WriteData_1core, WriteRegister_1core);
+		ReadRegister1_1core = 5'b01111;
+		#2;
+		$display("Read %b from %b.", ReadData1_1core, ReadRegister1_1core);
 	end
 endmodule
