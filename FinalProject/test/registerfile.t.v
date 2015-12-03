@@ -54,7 +54,7 @@ module testRegisterFile;
 		// Write to a register and then read from the register and check if the value we wrote is there
 		RegWrite_1core = 1'b1;
 		WriteRegister_1core = 5'b01111;
-		WriteData_1core = 5'b10101;
+		WriteData_1core = 32'b10101;
 		ReadRegister1_1core = 5'b01111;
 		#2;
 		if (ReadData1_1core !== WriteData_1core) begin
@@ -66,12 +66,12 @@ module testRegisterFile;
 		// Try to write to a register but haha regwrite is off so you cant
 		RegWrite_1core = 1'b0;
 		WriteRegister_1core = 5'b01111;
-		WriteData_1core = 5'b11111;
+		WriteData_1core = 32'b11111;
 		ReadRegister1_1core = 5'b01111;
 		#2;
 		if (ReadData1_1core === WriteData_1core) begin
 			$display("[Test 2] Unexpected read data from %b", ReadRegister1_1core);
-			$display("[Test 2] Expected %b, got %b", 5'b10101, ReadData1_1core);
+			$display("[Test 2] Expected %b, got %b", 32'b10101, ReadData1_1core);
 			dutPass = 0;
 		end
 
@@ -80,16 +80,16 @@ module testRegisterFile;
 		// Still have held its value
 		RegWrite_1core = 1'b1;
 		WriteRegister_1core = 5'b01001;
-		WriteData_1core = 5'b00001;
+		WriteData_1core = 32'b1;
 		ReadRegister1_1core = 5'b00000;
 		#2;
 		WriteRegister_1core = 5'b01111;
-		WriteData_1core = 5'b01101;
+		WriteData_1core = 32'b01101;
 		#2;
 		ReadRegister1_1core = 5'b01001;
-		if (ReadData1_1core !== 5'b00001) begin
+		if (ReadData1_1core !== 32'b00001) begin
 			$display("[Test 3] Unexpected read data from %b", ReadRegister1_1core);
-			$display("[Test 3] Expected %b, got %b", 5'b00001, ReadData1_1core);
+			$display("[Test 3] Expected %b, got %b", 32'b00001, ReadData1_1core);
 			dutPass = 0;
 		end
 
@@ -97,7 +97,7 @@ module testRegisterFile;
 		// Write to a register and then write to another register and read from both
 		RegWrite_1core = 1'b1;
 		WriteRegister_1core = 5'b01001;
-		WriteData_1core = 5'b00001;
+		WriteData_1core = 32'b00001;
 		ReadRegister1_1core = 5'b01001;
 		#2;
 		if (ReadData1_1core !== WriteData_1core) begin
@@ -106,7 +106,7 @@ module testRegisterFile;
 			dutPass = 0;
 		end
 		WriteRegister_1core = 5'b11011;
-		WriteData_1core = 5'b11001;
+		WriteData_1core = 32'b11001;
 		ReadRegister2_1core = 5'b11011;
 		#2;
 		if (ReadData2_1core !== WriteData_1core) begin
