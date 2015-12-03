@@ -18,7 +18,7 @@ module testRegisterFile;
 	reg clk;					// Clock (Positive Edge Triggered)
 
 	// Register File for 1 core
-	registerfile dut1 #(.cores(1)) (.read_data_1(ReadData1_1core),
+	registerfile #(.cores(1)) dut1 (.read_data_1(ReadData1_1core),
 									.read_data_2(ReadData2_1core),
 									.write_data(WriteData_1core),
 									.read_address_1(ReadRegister1_1core),
@@ -28,7 +28,7 @@ module testRegisterFile;
 									.clk(clk));
 
 	// Register File for 4 core
-	registerfile dut4 #(.cores(4)) (.read_data_1(ReadData1_4core),
+	registerfile #(.cores(4)) dut4 (.read_data_1(ReadData1_4core),
 									.read_data_2(ReadData2_4core),
 									.write_data(WriteData_4core),
 									.read_address_1(ReadRegister1_4core),
@@ -64,7 +64,7 @@ module testRegisterFile;
 			$display("[Test %d] Expected %b, got %b", testFlag, WriteData_1core, ReadData1_1core);
 			dutPass = 0;
 		end
-		
+
 		// Try to write to a register but haha regwrite is off so you cant
 		testFlag = testFlag + 1;
 		RegWrite_1core = 1'b0;

@@ -20,7 +20,7 @@ module registerfile
 
   genvar i;
   generate
-    for (i = cores; i > 0; i = i - 1) begin : WRITE
+    for (i = cores-1; i >= 0; i = i - 1) begin : WRITE
       always @(posedge clk) begin
         // if write enable flag is given and
         // the register to write to is not
@@ -34,7 +34,7 @@ module registerfile
 
   // output the values at the addressed registers
   generate
-    for (i = cores; i > 0; i = i - 1) begin : READ
+    for (i = cores-1; i >= 0; i = i - 1) begin : READ
       assign read_data_1[i] = registers[read_address_1[i]];
       assign read_data_2[i] = registers[read_address_2[i]];
     end
