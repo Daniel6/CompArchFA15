@@ -17,16 +17,18 @@ module vliwsplitter
     parameter inst_len = 32
 )
 (
-    input                                   clk,
-    input[inst_len*cores-1:0]               vliw,
-    output reg [cores-1:0] instructions [inst_len-1:0]
+    input clk,
+    input [inst_len*cores-1:0]               vliw,
+    output reg  [cores-1:0] [inst_len-1:0] instructions
 );
-    always @(posedge clk) begin
-        for (i = cores; i > 0; i = i - 1) begin
+
+    genvar i;
+    generate
+        for (i = cores; i > 0; i = i - 1) begin : SPLIT
             // Split the vliw into individual instructions
-            indexA = inst_len*(i)-1;
-            indexB = inst_len*(i-1);
-            instructions[i-1] <= vliw[indexA:indexB];
+            always @(posedge clk) begin
+                instructions[i-1] <= vliw[inst_len*i-1:inst_len*(i-1)];
+            end
         end
-    end
+    endgenerate
 endmodule
