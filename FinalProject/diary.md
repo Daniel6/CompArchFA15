@@ -19,3 +19,8 @@ Jumping will be a hazard, so you should only have one jump-type instruction in y
 This is because the jump instruction that actually gets through depends on which core is faster, and since they are identical it is kind of random.
 Also, when doing jump-and-link instructions, the return address is stored in a static register, so if two jal instruction fired off they would both be trying to write to the same register and who knows what would happen.
 In conclusion, dont jump twice at once or undefined behavior will happen and people will get sad.
+
+###12/2
+Today we made the VLIW splitter and instruction decoder. It went relatively smoothly.
+No architecture changes.
+Up next: shared register file
