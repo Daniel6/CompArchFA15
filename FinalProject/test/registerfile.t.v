@@ -40,39 +40,96 @@ module testRegisterFile;
 	initial clk = 0;
 	always #1 clk = !clk;
 	reg dutPass;
+	reg testFlag;
 
 	initial begin
 
 		$dumpfile("registerfile.t.vcd");
 	    $dumpvars(0, testRegisterFile);
 		dutPass = 1;
+		testFlag = 0;
 
 		// ===============================================================================================================
 		// 1 Core Tests
-
+		$display("Testing 1-Core Register File...");
 		// Write to a register and then read from the register and check if the value we wrote is there
+		testFlag = testFlag + 1;
 		RegWrite_1core = 1'b1;
 		WriteRegister_1core = 5'b01111;
 		WriteData_1core = 5'b10101;
 		ReadRegister1_1core = 5'b01111;
 		#2;
-		if (ReadData1_1core != WriteData_1core) begin
-			$display("[1 Core] Unexpected read data from %b", ReadRegister1_1core);
-			$display("[1 Core] Expected %b, got %b", WriteData_1core, ReadData1_1core);
+		if (ReadData1_1core !== WriteData_1core) begin
+			$display("[Test %d] Unexpected read data from %b", testFlag, ReadRegister1_1core);
+			$display("[Test %d] Expected %b, got %b", testFlag, WriteData_1core, ReadData1_1core);
 			dutPass = 0;
 		end
 
 		// Try to write to a register but haha regwrite is off so you cant
+		testFlag = testFlag + 1;
 		RegWrite_1core = 1'b0;
 		WriteRegister_1core = 5'b01111;
 		WriteData_1core = 5'b11111;
 		ReadRegister1_1core = 5'b01111;
 		#2;
-		if (ReadData1_1core == WriteData_1core) begin
-			$display("[1 Core] Unexpected read data from %b", ReadRegister1_1core);
-			$display("[1 Core] Expected %b, got %b", 5'b10101, ReadData1_1core);
+		if (ReadData1_1core === WriteData_1core) begin
+			$display("[Test %d] Unexpected read data from %b", testFlag, ReadRegister1_1core);
+			$display("[Test %d] Expected %b, got %b", 5'b10101, testFlag, ReadData1_1core);
 			dutPass = 0;
 		end
+
+		// Write to a register and then go and write to another register
+		// And then go back and read from the first register and it should
+		// Still have held its value
+		testFlag = testFlag + 1;
+		RegWrite_1core = 1'b1;
+		WriteRegister_1core = 5'b01001;
+		WriteData_1core = 5'b00001;
+		ReadRegister1_1core = 5'b00000;
+		#2;
+		WriteRegister_1core = 5'b01111;
+		WriteData_1core = 5'b01101;
+		#2;
+		ReadRegister1_1core = 5'b01001;
+		if (ReadData1_1core !== 5'b00001) begin
+			$display("[Test %d] Unexpected read data from %b", testFlag, ReadRegister1_1core);
+			$display("[Test %d] Expected %b, got %b", 5'b00001, testFlag, ReadData1_1core);
+			dutPass = 0;
+		end
+
+		// Test simultaneous reading
+		// Write to a register and then write to another register and read from both
+		testFlag = testFlag + 1;
+		RegWrite_1core = 1'b1;
+		WriteRegister_1core = 5'b01001;
+		WriteData_1core = 5'b00001;
+		ReadRegister1_1core = 5'b01001;
+		#2;
+		if (ReadData1_1core !== WriteData_1core) begin
+			$display("[Test %d] Unexpected read data from %b", testFlag, ReadRegister1_1core);
+			$display("[Test %d] Expected %b, got %b", testFlag, WriteData_1core, ReadData1_1core);
+			dutPass = 0;
+		end
+		WriteRegister_1core = 5'b11011;
+		WriteData_1core = 5'b11001;
+		ReadRegister2_1core = 5'b11011;
+		#2;
+		if (ReadData2_1core !== WriteData_1core) begin
+			$display("[Test %d] Unexpected read data from %b", testFlag, ReadRegister2_1core);
+			$display("[Test %d] Expected %b, got %b", testFlag, WriteData_1core, ReadData2_1core);
+			dutPass = 0;
+		end
+
+		if (dutPass) begin
+			$display("Pass");
+		end
+		else
+			$display("Fail");
+		end
+
+		// ===============================================================================================================
+		// 4 Core Tests
+		$display("Testing 4-Core Register File...");
 
 		$finish;
 	end
