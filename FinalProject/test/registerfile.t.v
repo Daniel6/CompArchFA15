@@ -81,12 +81,13 @@ module testRegisterFile;
 		RegWrite_1core = 1'b1;
 		WriteRegister_1core = 5'b01001;
 		WriteData_1core = 32'b1;
-		ReadRegister1_1core = 5'b00000;
+		ReadRegister1_1core = 5'b0;
 		#2;
 		WriteRegister_1core = 5'b01111;
 		WriteData_1core = 32'b01101;
 		#2;
 		ReadRegister1_1core = 5'b01001;
+        #2
 		if (ReadData1_1core !== 32'b00001) begin
 			$display("[Test 3] Unexpected read data from %b", ReadRegister1_1core);
 			$display("[Test 3] Expected %b, got %b", 32'b00001, ReadData1_1core);
@@ -126,6 +127,14 @@ module testRegisterFile;
 		// 4 Core Tests
 		$display("Testing 4-Core Register File...");
 
+
+		if (dutPass) begin
+			$display("Pass");
+		end
+		else begin
+			$display("Fail");
+		end
+		
 		$finish;
 	end
 endmodule
