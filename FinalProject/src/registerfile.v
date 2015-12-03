@@ -3,13 +3,13 @@ module registerfile
     parameter cores = 1
 )
 (
-  output [cores-1:0] read_data_1 [31:0],
-  output [cores-1:0] read_data_2 [31:0],
-  input [cores-1:0] write_data [31:0],
-  input [cores-1:0] read_address_1 [4:0],
-  input [cores-1:0] read_address_2 [4:0],
-  input [cores-1:0] write_address [4:0],
-  input write_enable [cores-1:0],
+  output [cores-1:0] [31:0] read_data_1,
+  output [cores-1:0] [31:0] read_data_2,
+  input [cores-1:0] [31:0] write_data,
+  input [cores-1:0] [4:0] read_address_1,
+  input [cores-1:0] [4:0] read_address_2,
+  input [cores-1:0] [4:0] write_address,
+  input [cores-1:0] write_enable,
   input clk
 );
   reg [31:0] registers[31:0];

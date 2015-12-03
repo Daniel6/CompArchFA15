@@ -123,7 +123,7 @@ module testRegisterFile;
 		if (dutPass) begin
 			$display("Pass");
 		end
-		else
+		else begin
 			$display("Fail");
 		end
 
