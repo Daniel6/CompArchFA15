@@ -51,7 +51,7 @@ module testRegisterFile;
 
 		// ===============================================================================================================
 		// 1 Core Tests
-
+		$display("Testing 1-Core Register File...");
 		// Write to a register and then read from the register and check if the value we wrote is there
 		testFlag = testFlag + 1;
 		RegWrite_1core = 1'b1;
@@ -119,6 +119,17 @@ module testRegisterFile;
 			$display("[Test %d] Expected %b, got %b", testFlag, WriteData_1core, ReadData2_1core);
 			dutPass = 0;
 		end
+
+		if (dutPass) begin
+			$display("Pass");
+		end
+		else
+			$display("Fail");
+		end
+
+		// ===============================================================================================================
+		// 4 Core Tests
+		$display("Testing 4-Core Register File...");
 
 		$finish;
 	end
