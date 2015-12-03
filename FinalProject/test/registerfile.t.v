@@ -126,6 +126,14 @@ module testRegisterFile;
 		// 4 Core Tests
 		$display("Testing 4-Core Register File...");
 
+
+		if (dutPass) begin
+			$display("Pass");
+		end
+		else begin
+			$display("Fail");
+		end
+		
 		$finish;
 	end
 endmodule
