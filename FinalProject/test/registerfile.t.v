@@ -39,18 +39,41 @@ module testRegisterFile;
 
 	initial clk = 0;
 	always #1 clk = !clk;
+	reg dutPass;
 
 	initial begin
 
+		$dumpfile("registerfile.t.vcd");
+	    $dumpvars(0, testRegisterFile);
+		dutPass = 1;
+
 		// ===============================================================================================================
 		// 1 Core Tests
+
+		// Write to a register and then read from the register and check if the value we wrote is there
 		RegWrite_1core = 1'b1;
 		WriteRegister_1core = 5'b01111;
 		WriteData_1core = 5'b10101;
-		#2;
-		$display("Wrote %b to %b.", WriteData_1core, WriteRegister_1core);
 		ReadRegister1_1core = 5'b01111;
 		#2;
-		$display("Read %b from %b.", ReadData1_1core, ReadRegister1_1core);
+		if (ReadData1_1core != WriteData_1core) begin
+			$display("[1 Core] Unexpected read data from %b", ReadRegister1_1core);
+			$display("[1 Core] Expected %b, got %b", WriteData_1core, ReadData1_1core);
+			dutPass = 0;
+		end
+		
+		// Try to write to a register but haha regwrite is off so you cant
+		RegWrite_1core = 1'b0;
+		WriteRegister_1core = 5'b01111;
+		WriteData_1core = 5'b11111;
+		ReadRegister1_1core = 5'b01111;
+		#2;
+		if (ReadData1_1core == WriteData_1core) begin
+			$display("[1 Core] Unexpected read data from %b", ReadRegister1_1core);
+			$display("[1 Core] Expected %b, got %b", 5'b10101, ReadData1_1core);
+			dutPass = 0;
+		end
+
+		$finish;
 	end
 endmodule
