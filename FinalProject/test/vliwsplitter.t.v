@@ -3,7 +3,7 @@ module testVliwSplitter;
 	reg testPass;
 	reg clk;
 	reg [31:0] vliw_1core;
-	wire [0:0] [31:0] instructions_1core ;
+	wire [0:0] [31:0] instructions_1core;
 	reg [63:0] vliw_2cores;
 	wire [1:0]  [31:0] instructions_2cores;
 	reg [127:0] vliw_4cores;

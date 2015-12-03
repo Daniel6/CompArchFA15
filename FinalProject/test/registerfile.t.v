@@ -1,19 +1,19 @@
 module testRegisterFile;
-	wire[31:0] ReadData1_1core;		// Data from first register read
-	wire[31:0] ReadData2_1core;		// Data from second register read
-	reg[31:0] WriteData_1core;		// Data to write to register
-	reg[4:0] ReadRegister1_1core;		// Address of first register to read
-	reg[4:0] ReadRegister2_1core;		// Address of second register to read
-	reg[4:0] WriteRegister_1core;		// Address of register to write
+	wire [0:0] [31:0] ReadData1_1core;		// Data from first register read
+	wire [0:0] [31:0] ReadData2_1core;		// Data from second register read
+	reg [0:0] [31:0] WriteData_1core;		// Data to write to register
+	reg [0:0] [4:0] ReadRegister1_1core;		// Address of first register to read
+	reg [0:0] [4:0] ReadRegister2_1core;		// Address of second register to read
+	reg [0:0] [4:0] WriteRegister_1core ;		// Address of register to write
 	reg RegWrite_1core;				// Enable writing of register when High
 
-	wire [4-1:0] ReadData1_4core [31:0];		// Data from first register read
-	wire [4-1:0] ReadData2_4core [31:0];		// Data from second register read
-	reg [4-1:0] WriteData_4core [31:0];		// Data to write to register
-	reg [4-1:0] ReadRegister1_4core [4:0];		// Address of first register to read
-	reg [4-1:0] ReadRegister2_4core [4:0];		// Address of second register to read
-	reg [4-1:0] WriteRegister_4core [4:0];		// Address of register to write
-	reg RegWrite_4core [4-1:0];				// Enable writing of register when High
+	wire [4-1:0] [31:0] ReadData1_4core;		// Data from first register read
+	wire [4-1:0] [31:0] ReadData2_4core;		// Data from second register read
+	reg [4-1:0] [31:0] WriteData_4core;		// Data to write to register
+	reg [4-1:0] [4:0] ReadRegister1_4core;		// Address of first register to read
+	reg [4-1:0] [4:0] ReadRegister2_4core;		// Address of second register to read
+	reg [4-1:0] [4:0] WriteRegister_4core;		// Address of register to write
+	reg [4-1:0] RegWrite_4core;				// Enable writing of register when High
 
 	reg clk;					// Clock (Positive Edge Triggered)
 
