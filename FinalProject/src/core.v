@@ -15,7 +15,8 @@ module core
     input beq,
     input bne,
     output [31:0] pcIn,
-    output myPc
+    output myPc,
+    output dataMemAddr
 );
 
     // Program Counter
@@ -44,30 +45,11 @@ module core
     wire [31:0] seImm;
     assign seImm = { { 16 { imm16Out[15] } }, imm16Out };
 
-
-
-    wire [4:0] ra = 5'd31;
-
-    mux4 regWriteAddrMux(.out(regWriteAddr),
-                         .address(RegDst),
-                         .input0(rtOut),
-                         .input1(rdOut),
-                         .input2(ra));
-
-    assign regAddrA = rsOut;
-    assign regAddrB = rtOut;
-
-    mux4 regDataWriteMux(.out(regDataIn),
-                         .address(RegIn),
-                         .input0(aluResult),
-                         .input1(dataMemOut),
-                         .input2(pcAddOut));
-
     // ALU
-    wire [31:0] aluResult, aluOpA, aluOpB;
+    wire [31:0] aluOpA, aluOpB;
     wire aluCarryout, aluZero, aluOverflow;
     wire [2:0] aluCommand;
-    ALU alu(.result(aluResult),
+    ALU alu(.result(dataMemAddr),
             .carryout(aluCarryOut),
             .zero(aluZero),
             .overflow(aluOverflow),
@@ -85,126 +67,5 @@ module core
     // Branch Control
     wire branch;
     assign branch = ((BEQ & aluZero) | (BNE & ~aluZero));
-
-    // Data Memory
-    wire [31:0] dataMemDataOut, dataMemAddr, dataMemDataIn;
-    datamemory dataMem(.clk(clkOut),
-                       .dataOut(dataMemOut),
-                       .address(dataMemAddr),
-                       .writeEnable(MemWe),
-                       .dataIn(dataMemDataIn));
-
-    assign dataMemAddr = aluResult;
-    assign dataMemDataIn = regDataB;
-
-    // Control Table
-    controlTable controls(.clk(clkOut),
-                          .op(opOut),
-                          .funct(functOut),
-                          .pc_next(PcNext),
-                          .reg_dst(RegDst),
-                          .alu_src(AluSrc),
-                          .alu_ctrl(AluCtrl),
-                          .reg_we(RegWe),
-                          .reg_in(RegIn),
-                          .mem_we(MemWe),
-                          .beq(BEQ),
-                          .bne(BNE));
-
-    initial begin
-        $dumpfile("cpu.vcd"); //dump info to create wave propagation later
-        $dumpvars(0, cpu);
-
-        #10;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        #20;
-        $display("PC: %b", pcOut);
-        // check our result registers!
-        #20
-        $display("regA: %d, at address: %h", regDataA, regAddrA);
-        #20
-        $display("regA: %d, at address: %h", regDataA, regAddrA);
-        #20
-        $display("regA: %d, at address: %h", regDataA, regAddrA);
-        #20
-        $display("regA: %d, at address: %h", regDataA, regAddrA);
-        #20
-        $display("regA: %d, at address: %h", regDataA, regAddrA);
-        #20
-        $display("regA: %d, at address: %h", regDataA, regAddrA);
-        #20
-        $display("regA: %d, at address: %h", regDataA, regAddrA);
-        #20
-        $display("regA: %d, at address: %h", regDataA, regAddrA);
-        $finish;
-    end
 
 endmodule
