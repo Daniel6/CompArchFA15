@@ -45,18 +45,6 @@ module core
     assign seImm = { { 16 { imm16Out[15] } }, imm16Out };
 
 
-    // Registers
-    wire regWriteEnable;
-    wire [4:0] regWriteAddr, regAddrA, regAddrB;
-    wire [31:0] regDataIn, regDataA, regDataB;
-    Registers regs(.clk(clkOut),
-                   .write_addr(regWriteAddr),
-                   .data_in(regDataIn),
-                   .write_enable(RegWe),
-                   .address_a(regAddrA),
-                   .address_b(regAddrB),
-                   .data_a(regDataA),
-                   .data_b(regDataB));
 
     wire [4:0] ra = 5'd31;
 
