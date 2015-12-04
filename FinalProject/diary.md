@@ -27,3 +27,6 @@ Up next: shared register file
 
 ###12/3
 Today we made the registerfile. The registerfile is the same as a standard MIPS regfile, but with as many read and write ports as there are cores. The only problems we ran into were syntax related errors when writing in system verilog, but other than that this task was not too daunting. We also made a test module, which was annoying because we also have to test four cores, but so far we've only written tests for one core.
+
+###12/4
+Today we sat down and sketched out a schematic for the entire processor, determining the exact placement of muxes and stuff. This also included definig control signals.
