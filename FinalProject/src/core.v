@@ -1,34 +1,33 @@
 module core
 (
     input clk,
-
+    input [31:0] regDataA,
+    input [31:0] regDataB,
+    input [15:0] imm,
+    input [25:0] addr,
+    input [1:0] pc_next,
+    input [1:0] reg_dst,
+    input alu_src,
+    input [1:0] alu_ctrl,
+    input reg_we,
+    input [1:0] reg_in,
+    input mem_we,
+    input beq,
+    input bne,
+    output [31:0] pcIn,
+    output myPc
 );
 
-    // System Clock
-    wire clkOut;
-    clock clk(clkOut);
-
-    // Control Signals
-    wire [1:0] PcNext;
-    wire [1:0] RegDst;
-    wire AluSrc;
-    wire [1:0] AluCtrl;
-    wire RegWe;
-    wire [1:0] RegIn;
-    wire MemWe;
-    wire BEQ;
-    wire BNE;
-
     // Program Counter
-    wire [31:0] pcOut; // this might need to be a register
-    wire [31:0] pcIn;
     assign pcAddOut = pcOut + pcAddMuxOut;
     mux4 pcMux(.out(pcIn),
-               .address(PcNext),
+               .address(pc_next),
                .input0(pcAddOut),
                .input1(pcJump),
                .input2(regDataA));
-    PC pc(.clk(clkOut), .in(pcIn), .out(pcOut));
+
+    // selector for pc
+    myPc = (branch | pc_next[0] | pc_next[1]);
 
     // Program Counter Adder
     wire [31:0] pcAddOut, pcAddMuxOut;
@@ -37,31 +36,9 @@ module core
                   .input0(4),
                   .input1(4 * seImm + 4));
 
-    // Instruction Memory
-    wire [31:0] instructionOut, instructionAddr;
-    assign instructionAddr = pcOut;
-    instructionMemory instrMem(.clk(clkOut),
-                               .dataOut(instructionOut),
-                               .address(instructionAddr),
-                               .writeEnable(0));
-
-    // Instruction Decoder
-    wire [5:0] opOut, functOut;
-    wire [4:0] rsOut, rtOut, rdOut;
-    wire [15:0] imm16Out;
-    wire [25:0] addr26Out;
-    instructionDecoder decoder(.instruction_in(instructionOut),
-                               .op(opOut),
-                               .rs(rsOut),
-                               .rt(rtOut),
-                               .rd(rdOut),
-                               .funct(functOut),
-                               .imm_16(imm16Out),
-                               .address_26(addr26Out));
-
     // Concatenator
     wire [31:0] pcJump;
-    assign pcJump = { pcOut[31:28], addr26Out, 2'b00 };
+    assign pcJump = { pcOut[31:28], addr, 2'b00 };
 
     // Sign Extender
     wire [31:0] seImm;
