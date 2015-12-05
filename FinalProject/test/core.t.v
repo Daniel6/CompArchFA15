@@ -88,10 +88,6 @@ module testCore;
             dutpassed = 0;
         end
 
-        if (dutpassed === 1) begin
-            $display("Test 1 Passed");
-        end
-
         // Test 2: Store Word
         regDataA = 32'd7;
         regDataB = 32'b0;
@@ -125,10 +121,6 @@ module testCore;
             dutpassed = 0;
         end
 
-        if (dutpassed === 1) begin
-            $display("Test 2 Passed");
-        end
-
         // Test 3: Jump
         regDataA = 32'd7;
         regDataB = 32'b0;
@@ -155,10 +147,6 @@ module testCore;
             $display("Test 3 Failed");
             $display("expected myPc: %b, actual myPc: %b", 1'b1, myPc);
             dutpassed = 0;
-        end
-
-        if (dutpassed === 1) begin
-            $display("Test 3 Passed");
         end
 
         // Test 4: Jump Register
@@ -189,10 +177,6 @@ module testCore;
             dutpassed = 0;
         end
 
-        if (dutpassed === 1) begin
-            $display("Test 4 Passed");
-        end
-
         // Test 5: Jump and Link
         regDataA = 32'd7;
         regDataB = 32'b0;
@@ -219,10 +203,6 @@ module testCore;
             $display("Test 5 Failed");
             $display("expected myPc: %b, actual myPc: %b", 1'b1, myPc);
             dutpassed = 0;
-        end
-
-        if (dutpassed === 1) begin
-            $display("Test 5 Passed");
         end
 
         // Test 6: Branch if Equal
@@ -253,18 +233,14 @@ module testCore;
             dutpassed = 0;
         end
 
-        if (dutpassed === 1) begin
-            $display("Test 6.1 Passed");
-        end
-
         regDataA = 32'd9;
         regDataB = 32'd9;
         imm = 16'b1100110011001100;
 
         #2
-        if (pcRes !== 32'b1111111111111111110011001100110100) begin
+        if (pcRes !== 32'b11111111111111110011001100110100) begin
             $display("Test 6.2 Failed");
-            $display("expected pcRes: %b, actual pcRes: %b", 32'b1111111111111111110011001100110100, pcRes);
+            $display("expected pcRes: %b, actual pcRes: %b", 32'b11111111111111110011001100110100, pcRes);
             dutpassed = 0;
         end
         if (myPc !== 1'b1) begin
@@ -273,9 +249,6 @@ module testCore;
             dutpassed = 0;
         end
 
-        if (dutpassed === 1) begin
-            $display("Test 6.2 Passed");
-        end
 
         // Test 7: Branch if Not Equal
         regDataA = 32'd1;
@@ -305,10 +278,6 @@ module testCore;
             dutpassed = 0;
         end
 
-        if (dutpassed === 1) begin
-            $display("Test 7.1 Passed");
-        end
-
         regDataA = 32'd9;
         regDataB = 32'd9;
 
@@ -324,10 +293,6 @@ module testCore;
             dutpassed = 0;
         end
 
-        if (dutpassed === 1) begin
-            $display("Test 7.2 Passed");
-        end
-
         // Test 8: XORI
         regDataA = 32'b10110110100101001011010110000101;
         regDataB = 32'b0;
@@ -336,9 +301,9 @@ module testCore;
         pc_next = 0;
         reg_dst = 0;
         alu_src = 0;
-        alu_ctrl = 0;
+        alu_ctrl = 2;
         reg_we = 1;
-        reg_in = 1;
+        reg_in = 0;
         mem_we = 0;
         beq = 0;
         bne = 0;
@@ -346,25 +311,136 @@ module testCore;
 
         #2
         if (pcRes !== 32'd4) begin
-            $display("Test 1 Failed");
+            $display("Test 8 Failed");
             $display("expected pcRes: %b, actual pcRes: %b", 32'd4, pcRes);
             dutpassed = 0;
         end
         if (myPc !== 1'b0) begin
-            $display("Test 1 Failed");
+            $display("Test 8 Failed");
             $display("expected myPc: %b, actual myPc: %b", 0, myPc);
             dutpassed = 0;
         end
-        imm =      16'b1011010011010101;
-        regDataA = 32'b10110110100101001011010110000101;
+        if (aluRes !== 32'b01001001011010110000000101010000) begin
+            $display("Test 8 Failed");
+            $display("expected aluRes: %b, actual aluRes: %b", 32'b01001001011010110000000101010000, aluRes);
+            dutpassed = 0;
+        end
+
+        // Test 9: ADD
+        regDataA = 32'd194;
+        regDataB = 32'd34;
+        pc_next = 0;
+        reg_dst = 1;
+        alu_src = 1;
+        alu_ctrl = 0;
+        reg_we = 1;
+        reg_in = 0;
+        mem_we = 0;
+        beq = 0;
+        bne = 0;
+        pcIn = 32'b0;
+
+        #2
+        if (pcRes !== 32'd4) begin
+            $display("Test 9 Failed");
+            $display("expected pcRes: %b, actual pcRes: %b", 32'd4, pcRes);
+            dutpassed = 0;
+        end
+        if (myPc !== 1'b0) begin
+            $display("Test 9 Failed");
+            $display("expected myPc: %b, actual myPc: %b", 0, myPc);
+            dutpassed = 0;
+        end
+        if (aluRes !== 32'd228) begin
+            $display("Test 9 Failed");
+            $display("expected aluRes: %b, actual aluRes: %b", 32'd228, aluRes);
+            dutpassed = 0;
+        end
+
+        // Test 10: ADD
+        regDataA = 32'd194;
+        regDataB = 32'd34;
+        pc_next = 0;
+        reg_dst = 1;
+        alu_src = 1;
+        alu_ctrl = 1;
+        reg_we = 1;
+        reg_in = 0;
+        mem_we = 0;
+        beq = 0;
+        bne = 0;
+        pcIn = 32'b0;
+
+        #2
+        if (pcRes !== 32'd4) begin
+            $display("Test 10 Failed");
+            $display("expected pcRes: %b, actual pcRes: %b", 32'd4, pcRes);
+            dutpassed = 0;
+        end
+        if (myPc !== 1'b0) begin
+            $display("Test 10 Failed");
+            $display("expected myPc: %b, actual myPc: %b", 0, myPc);
+            dutpassed = 0;
+        end
+        if (aluRes !== 32'd160) begin
+            $display("Test 10 Failed");
+            $display("expected aluRes: %b, actual aluRes: %b", 32'd228, aluRes);
+            dutpassed = 0;
+        end
+
+        // Test 11: SLT
+        regDataA = 32'd194;
+        regDataB = 32'd34;
+        pc_next = 0;
+        reg_dst = 1;
+        alu_src = 1;
+        alu_ctrl = 2'd3;
+        reg_we = 1;
+        reg_in = 0;
+        mem_we = 0;
+        beq = 0;
+        bne = 0;
+        pcIn = 32'b0;
+
+        #2
+        if (pcRes !== 32'd4) begin
+            $display("Test 11.1 Failed");
+            $display("expected pcRes: %b, actual pcRes: %b", 32'd4, pcRes);
+            dutpassed = 0;
+        end
+        if (myPc !== 1'b0) begin
+            $display("Test 11.1 Failed");
+            $display("expected myPc: %b, actual myPc: %b", 0, myPc);
+            dutpassed = 0;
+        end
         if (aluRes !== 32'b0) begin
-            $display("Test 1 Failed");
-            $display("expected aluRes: %b, actual aluRes: %b", 32'd19, aluRes);
+            $display("Test 11.1 Failed");
+            $display("expected aluRes: %b, actual aluRes: %b", 32'd228, aluRes);
+            dutpassed = 0;
+        end
+
+        regDataA = 32'd0;
+        regDataB = 32'd34;
+
+        #2
+        if (pcRes !== 32'd4) begin
+            $display("Test 11.2 Failed");
+            $display("expected pcRes: %b, actual pcRes: %b", 32'd4, pcRes);
+            dutpassed = 0;
+        end
+        if (myPc !== 1'b0) begin
+            $display("Test 11.2 Failed");
+            $display("expected myPc: %b, actual myPc: %b", 0, myPc);
+            dutpassed = 0;
+        end
+        if (aluRes !== 32'b1) begin
+            $display("Test 11.2 Failed");
+            $display("expected aluRes: %b, actual aluRes: %b", 32'd1, aluRes);
             dutpassed = 0;
         end
 
         if (dutpassed === 1) begin
-            $display("Test 1 Passed");
+            $display("Tests Passed");
         end
         $finish;
     end
