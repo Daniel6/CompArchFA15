@@ -4,12 +4,12 @@ module pcjumper
 )
 (
 	input [31:0]				pc_plus4,
-	input [cores-1:0] [31:0]	core_pcs,
-	input [cores-1:0]			core_controls,
+	input [cores-1:0] [31:0]	core_pcs,		// Take core jump addresses as a bus to support parameterization
+	input [cores-1:0]			core_controls,	// Take core jump control signals as bus
 	output [31:0]				next_pc
 );
 
-	wire[cores-1:0] [31:0] internal_wires;
+	wire[cores-1:1] [31:0] internal_wires;		// Make internal wires for the mux chain
 
 	generate
 		genvar i;

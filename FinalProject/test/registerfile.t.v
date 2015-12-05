@@ -127,6 +127,11 @@ module testRegisterFile;
 		// 4 Core Tests
 		$display("Testing 4-Core Register File...");
 
+		// Test Case:
+		// Write to 4 registers simultaneously
+		// Read from those 4 registers
+		// Expected Output:
+		// Read the 4 written values
 		RegWrite_4core[3:0] = 4'b1111;
 		WriteData_4core[3] = 32'd87;
 		WriteData_4core[2] = 32'd199;
@@ -148,6 +153,12 @@ module testRegisterFile;
 			end
 		end
 
+		// Test Case:
+		// Disable writing
+		// read from the 4 registers that were written to in the above test case
+		// This tests data persistence, making sure the registers maintain their values
+		// Expected Output:
+		// Read the 4 written values
 		RegWrite_4core[3:0] = 4'b0000;
 		WriteData_4core[3] = 32'd256;
 		WriteData_4core[2] = 32'd129;
