@@ -24,8 +24,8 @@ module controlTable
 
     reg[4:0] rd;
     reg[5:0] op;
-    reg[5:0] func;
-    reg [1:0] reg_dst,
+    reg[5:0] funct;
+    reg [1:0] reg_dst;
 parameter lw = 6'b100011;
 parameter sw = 6'b101011;
 parameter j = 6'b000010;
@@ -39,13 +39,21 @@ parameter add = 6'b100000;
 parameter sub = 6'b100010;
 parameter slt = 6'b101010;
 parameter jr = 6'b001000;
+    wire [4:0] ra;
+    assign ra = 5'd31;
+
+    mux4 regWriteAddrMux(.out(aw),
+                         .address(reg_dst),
+                         .input0(rt),
+                         .input1(rd),
+                         .input2(ra));
 
 always @(posedge clk) begin
         op = instruction[31:26];
         rs = instruction[25:21];
         rt = instruction[20:16];
         rd = instruction[15:11];
-        func = instruction[5:0];
+        funct = instruction[5:0];
         imm = instruction[15:0];
         target = instruction[25:0];
 end
@@ -61,6 +69,7 @@ always @ (posedge clk or op or funct) begin
 
         add: begin
 
+          $display("********* ADD **********");
            pc_next = 2'b0;
            reg_dst = 2'b1;
            alu_src = 1'b1;
@@ -75,6 +84,7 @@ always @ (posedge clk or op or funct) begin
 
         sub: begin
 
+          $display("********* SUB **********");
            pc_next = 2'b0;
            reg_dst = 2'b1;
            alu_src = 1'b1;
@@ -89,6 +99,7 @@ always @ (posedge clk or op or funct) begin
 
         slt: begin
 
+          $display("********* SLT **********");
            pc_next = 2'b0;
            reg_dst = 2'b1;
            alu_src = 1'b1;
@@ -103,6 +114,7 @@ always @ (posedge clk or op or funct) begin
 
         jr: begin
 
+          $display("********* JR **********");
            pc_next = 2'b10;
            reg_dst = 2'bx;
            alu_src = 1'bx;
@@ -136,6 +148,7 @@ always @ (posedge clk or op or funct) begin
 
     lw: begin
 
+      $display("********* LW **********");
        pc_next = 2'b0;
        reg_dst = 2'b0;
        alu_src = 1'b0;
@@ -150,6 +163,7 @@ always @ (posedge clk or op or funct) begin
 
     sw: begin
 
+      $display("********* SW **********");
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'b0;
@@ -162,8 +176,8 @@ always @ (posedge clk or op or funct) begin
 
     end
 
-    j: begin
-
+    j: begin    
+      $display("********* J **********");
        pc_next = 2'b1;
        reg_dst = 2'bx;
        alu_src = 1'bx;
@@ -178,6 +192,7 @@ always @ (posedge clk or op or funct) begin
 
     jal: begin
 
+      $display("********* JAL **********"); 
        pc_next = 2'b1;
        reg_dst = 2'b10;
        alu_src = 1'bx;
@@ -192,6 +207,8 @@ always @ (posedge clk or op or funct) begin
 
     beq_code: begin
 
+
+      $display("********* BEQ **********");
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'b1;
@@ -206,6 +223,7 @@ always @ (posedge clk or op or funct) begin
 
     bne_code: begin
 
+      $display("********* BNE **********");
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'b1;
@@ -220,6 +238,7 @@ always @ (posedge clk or op or funct) begin
 
     xori: begin
 
+      $display("********* XORI **********");
        pc_next = 2'b0;
        reg_dst = 2'b0;
        alu_src = 1'b0;
@@ -234,7 +253,7 @@ always @ (posedge clk or op or funct) begin
 
     default: begin
 
-      /*$display("********* default **********");*/
+      $display("********* default 2 **********");
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'bx;
@@ -250,13 +269,6 @@ always @ (posedge clk or op or funct) begin
   endcase
     /*$display("pc_next: %b", pc_next);
     $display("op: %b", op);*/
-    wire [4:0] ra = 5'd31;
-
-   mux4 regWriteAddrMux(.out(aw),
-                         .address(reg_dst),
-                         .input0(rt),
-                         .input1(rd),
-                         .input2(ra));
 
 
 end
