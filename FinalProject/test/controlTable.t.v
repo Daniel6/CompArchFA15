@@ -1,22 +1,42 @@
-//-------------------------------
-// Data Memory Test
-//-------------------------------
-
 module testControlTable;
+reg clk;
+reg [31:0] instruction;
 
-    reg [5:0]     op;
-    reg [5:0]     funct;
-    wire [1:0] pc_next;
-    wire [1:0] reg_dst;
-    wire alu_src;
-    wire [1:0] alu_ctrl;
-    wire reg_we;
-    wire [1:0] reg_in;
-    wire mem_we;
-    wire beq;
-    wire bne;
+   wire [1:0] pc_next;
+   wire alu_src;
+   wire [1:0] alu_ctrl;
+   wire reg_we;
+   wire [1:0] reg_in;
+   wire mem_we;
+   wire beq;
+   wire bne;
+   wire[25:0]    target;
+   wire[15:0]    imm;
+   wire[4:0]     rs;
+   wire[4:0]     rt;
+   wire[4:0]     aw;
 
-    reg dutpassed;
+controlTable control(.clk(clk), 
+					 .instruction(instruction),
+					 .pc_next(pc_next),
+					 .alu_src(alu_src),
+					 .alu_ctrl(alu_ctrl),
+					 .reg_we(reg_we),
+					 .reg_in(reg_in),
+					 .mem_we(mem_we),
+					 .beq(beq),
+					 .bne(bne),
+					 .target(target),
+					 .imm(imm),
+					 .rs(rs),
+					 .rt(rt),
+					 .aw(aw));
+
+initial clk = 0;
+always #1 clk = !clk;
+reg dutpassed = 1;
+
+
 
     parameter lw = 6'b100011;
     parameter sw = 6'b101011;
@@ -32,110 +52,115 @@ module testControlTable;
     parameter slt = 6'b101010;
     parameter jr = 6'b001000;
 
-    // System Clock
-    wire clkOut;
-    clock clk(clkOut);
 
-    controlTable DUT(clkOut, op, funct, pc_next, reg_dst, alu_src, alu_ctrl,
-                     reg_we, reg_in, mem_we, beq, bne);
+    parameter rs_code = 5'b00001;
+    parameter rt_code = 5'b00011;
+    parameter rd_code = 5'b00111;
+    parameter imm_code = 16'h000A;
+    parameter target_code = 26'b10101010101010101010101010;
 
-    initial begin
-        $dumpfile("controlTable.vcd"); //dump info to create wave propagation later
-        $dumpvars(0, testControlTable);
+initial begin
+	$dumpfile("controlTable.vcd");
+	$dumpvars(0,testControlTable);
+	$display("TESTING CONTROL TABLE");
 
-        $display("Testing controlTable");
-
-
-        dutpassed = 1;
-
-        op = alu;
-        funct = add;
-        #30
-        if (pc_next !== 2'b0 || reg_dst !== 2'b1 || alu_src !== 1'b1 || alu_ctrl !== 2'b0 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
-            dutpassed = 0;
-            $display("ADD Test failed");
-        end
-
-        funct = sub;
-        #30
-        if (pc_next !== 2'b0 || reg_dst !== 2'b1 || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
-            dutpassed = 0;
-            $display("SUB Test failed");
-        end
-
-        funct = slt;
-        #30
-        if (pc_next !== 2'b0 || reg_dst !== 2'b1 || alu_src !== 1'b1 || alu_ctrl !== 2'b11 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
-            dutpassed = 0;
-            $display("SLT Test failed");
-        end
-
-        funct = jr;
-        #30
-        if (pc_next !== 2'b10 || reg_dst !== 2'bx || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
-            dutpassed = 0;
-            $display("JR Test failed");
-        end
-
-        op = lw;
-        #30
-        if (pc_next !== 2'b0 || reg_dst !== 2'b0 || alu_src !== 1'b0 || alu_ctrl !== 2'b0 || reg_we !== 1'b1 || reg_in !== 2'b1 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
+	//TESTING LW
+	
+	instruction = {lw, rs_code, rt_code, imm_code};
+	#2
+	if (pc_next !== 2'b0 || aw !== rt_code || alu_src !== 1'b0 || alu_ctrl !== 2'b0 || reg_we !== 1'b1 || reg_in !== 2'b1 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("LW Test failed");
-        end
+    end
 
-        op = sw;
-        #30
-        if (pc_next !== 2'b0 || reg_dst !== 2'bx || alu_src !== 1'b0 || alu_ctrl !== 2'b0 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b1 || beq !== 1'b0 || bne !== 1'b0) begin
+	//TESTING SW
+	instruction = {sw, rs_code,rt_code, imm_code};
+	#2
+	if (pc_next !== 2'b0 || aw !== 5'bx || alu_src !== 1'b0 || alu_ctrl !== 2'b0 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b1 || beq !== 1'b0 || bne !== 1'b0) begin
             dutpassed = 0;
             $display("SW Test failed");
-        end
-
-        op = j;
-        #30
-        if (pc_next !== 2'b1 || reg_dst !== 2'bx || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
-            dutpassed = 0;
-            $display("J Test failed");
-        end
-
-        op = jal;
-        #30
-        if (pc_next !== 2'b1 || reg_dst !== 2'b10 || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b1 || reg_in !== 2'b10 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
-            dutpassed = 0;
-            $display("JAL Test failed");
-        end
-
-        op = beq_code;
-        #30
-        if (pc_next !== 2'b0 || reg_dst !== 2'bx || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b1 || bne !== 1'b0) begin
-            dutpassed = 0;
-            $display("BEQ Test failed");
-        end
-
-        op = bne_code;
-        #30
-        if (pc_next !== 2'b0 || reg_dst !== 2'bx || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b1) begin
-            dutpassed = 0;
-            $display("BNE Test failed");
-        end
-
-        op = xori;
-        #30
-        if (pc_next !== 2'b0 || reg_dst !== 2'b0 || alu_src !== 1'b0 || alu_ctrl !== 2'b10 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
-            dutpassed = 0;
-            $display("XORI Test failed");
-        end
-
-        if (dutpassed == 1) begin
-            $display("ControlTable Tests Passed");
-        end
-
-        else begin
-            $display("ControlTable Tests Failed");
-        end
-        $display();
-        $finish;
-
     end
+
+	//J
+	instruction = {j, target_code};
+	#2
+	if (pc_next !== 2'b1 || aw !== 5'bx || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
+        dutpassed = 0;
+        $display("J Test failed");
+    end	
+	//JR
+	instruction = {alu,rs_code, 21'b000000000000000001000 };
+	#2
+    if (pc_next !== 2'b10 || aw !== 5'bx || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
+        dutpassed = 0;
+        $display("JR Test failed");
+    end
+
+	//JAL
+	instruction = {jal, target_code};
+	#2
+    if (pc_next !== 2'b1 || aw !== 5'd31 || alu_src !== 1'bx || alu_ctrl !== 2'bx || reg_we !== 1'b1 || reg_in !== 2'b10 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
+        dutpassed = 0;
+        $display("JAL Test failed");
+    end
+
+	//BEQ
+	instruction = {beq_code, rs_code, rt_code, imm_code};
+	#2
+    if (pc_next !== 2'b0 || aw !== 5'bx || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b1 || bne !== 1'b0) begin
+        dutpassed = 0;
+        $display("BEQ Test failed");
+    end
+	//BNE
+	instruction = {bne_code, rs_code,rt_code,imm_code};
+	#2
+   if (pc_next !== 2'b0 || aw !== 5'bx || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b0 || reg_in !== 2'bx || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b1) begin
+        dutpassed = 0;
+        $display("BNE Test failed");
+    end
+	//XORI
+	instruction = {xori, rs_code, rt_code, imm_code};
+	#2
+	if (pc_next !== 2'b0 || aw !== rt_code || alu_src !== 1'b0 || alu_ctrl !== 2'b10 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
+        dutpassed = 0;
+        $display("XORI Test failed");
+    end
+	//ADD
+	instruction = {alu, rs_code, rt_code, rd_code, 11'b00000100000};
+	#2
+	if (pc_next !== 2'b0 || aw !== rd_code || alu_src !== 1'b1 || alu_ctrl !== 2'b0 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
+        dutpassed = 0;
+        $display("ADD Test failed");
+    end
+	//SUB
+	instruction = {alu, rs_code, rt_code, rd_code, 11'b00000100010};
+	#2
+	if (pc_next !== 2'b0 || aw !== rd_code || alu_src !== 1'b1 || alu_ctrl !== 2'b1 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
+        dutpassed = 0;
+        $display("SUB Test failed");
+    end
+	//SLT
+	instruction = {alu, rs_code, rt_code, rd_code, 11'b00000101010};
+	#2
+	if (pc_next !== 2'b0 || aw !== rd_code || alu_src !== 1'b1 || alu_ctrl !== 2'b11 || reg_we !== 1'b1 || reg_in !== 2'b0 || mem_we !== 1'b0 || beq !== 1'b0 || bne !== 1'b0) begin
+        dutpassed = 0;
+        $display("SLT Test failed");
+    end
+
+    if( target !== instruction[25:0] ||imm_code !== imm_code || rs_code !==rs || rt_code!== rt) begin
+    	dutpassed = 0;
+    	$display("Decoder Test failed");
+    end
+
+    if (dutpassed == 1) begin
+        $display("ControlTable Tests Passed");
+    end
+
+    else begin
+        $display("ControlTable Tests Failed");
+    end
+	$finish;
+end
+
 
 endmodule
