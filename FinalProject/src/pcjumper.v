@@ -3,10 +3,10 @@ module pcjumper
 	parameter cores = 1
 )
 (
-	input 						pc_plus4,
+	input [31:0]				pc_plus4,
 	input [cores-1:0] [31:0]	core_pcs,
 	input [cores-1:0] [31:0]	core_controls,
-	output 						next_pc
+	output [31:0]				next_pc
 );
 
 	wire[cores-1:0] internal_wires[31:0];
