@@ -8,7 +8,7 @@ module core
     input [1:0] pc_next,
     input [1:0] reg_dst,
     input alu_src,
-    input [2:0] alu_ctrl,
+    input [1:0] alu_ctrl,
     input reg_we,
     input [1:0] reg_in,
     input mem_we,
@@ -17,10 +17,12 @@ module core
     input [31:0] pcIn,
     output [31:0] pcRes,
     output myPc,
-    output [31:0] dataMemAddr
+    output [31:0] aluRes
 );
 
     // Program Counter
+    wire [31:0] pcJump;
+    wire [31:0] seImm;
     wire [31:0] pcAddOut;
     assign pcAddOut = pcIn + pcAddMuxOut;
     mux4 pcMux(.out(pcRes),
@@ -48,8 +50,7 @@ module core
     // ALU
     wire [31:0] aluOpA, aluOpB;
     wire aluCarryout, aluZero, aluOverflow;
-    wire [2:0] aluCommand;
-    ALU alu(.result(dataMemAddr),
+    ALU alu(.result(aluRes),
             .carryout(aluCarryOut),
             .zero(aluZero),
             .overflow(aluOverflow),

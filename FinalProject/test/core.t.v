@@ -13,7 +13,7 @@ module testCore;
     reg [1:0] pc_next;
     reg [1:0] reg_dst;
     reg alu_src;
-    reg [2:0] alu_ctrl;
+    reg [1:0] alu_ctrl;
     reg reg_we;
     reg [1:0] reg_in;
     reg mem_we;
@@ -21,9 +21,12 @@ module testCore;
     reg bne;
     reg [31:0] pcIn;
     reg myPc;
-    reg [31:0] dataMemAddr;
+    reg [31:0] aluRes;
 
     reg dutpassed;
+
+    initial clk = 0;
+    always #1 clk = !clk;
 
     core DUT(.clk(clk),
                .regDataA(regDataA),
@@ -41,7 +44,7 @@ module testCore;
                .bne(bne),
                .pcIn(pcIn),
                .myPc(myPc),
-               .dataMemAddr(dataMemAddr));
+               .aluRes(aluRes));
 
     initial begin
         $dumpfile("core.vcd"); //dump info to create wave propagation later
@@ -49,10 +52,24 @@ module testCore;
 
         $display("Testing core");
 
+        // Test 1: Load Word
+        regDataA = 32'd7;
+        regDataB = 32'b0;
+        imm = 32'd12;
+        addr = 32'b0;
+        pc_next = 0;
+        reg_dst = 0;
+        alu_src = 0;
+        alu_ctrl = 0;
+        reg_we = 1;
+        reg_in = 1;
+        mem_we = 0;
+        be = 0;
+        bne = 0;
+
         dutpassed = 1;
 
         $finish;
-
     end
 
 endmodule
