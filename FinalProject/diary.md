@@ -30,3 +30,6 @@ Today we made the registerfile. The registerfile is the same as a standard MIPS 
 
 ###12/4
 Today we sat down and sketched out a schematic for the entire processor, determining the exact placement of muxes and stuff. This also included definig control signals.
+
+###12/5
+Today we finished off the 4-core tests for the register file and made some stuff. We made the mux-chain module that will be used to decide what address to jump to when cores get jump instructions. We made some tests for the execution cores and data memory modules and control table. We will be able to integrate all these modules soon.
