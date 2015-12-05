@@ -48,22 +48,22 @@ module core
     assign seImm = { { 16 { imm[15] } }, imm };
 
     // ALU
-    wire [31:0] aluOpA, aluOpB;
+    wire [31:0] aluOpB;
+    mux2 aluBMux(.out(aluOpB),
+                 .address(alu_src),
+                 .input0(seImm),
+                 .input1(regDataB));
+
     wire aluCarryout, aluZero, aluOverflow;
     ALU alu(.result(aluRes),
             .carryout(aluCarryOut),
             .zero(aluZero),
             .overflow(aluOverflow),
-            .operandA(aluOpA),
+            .operandA(regDataA),
             .operandB(aluOpB),
             .command(alu_ctrl));
 
-    assign aluOpA = regDataA;
 
-    mux2 aluBMux(.out(aluOpB),
-                 .address(AluSrc),
-                 .input0(seImm),
-                 .input1(regDataB));
 
     // Branch Control
     assign branch = ((beq & aluZero) | (bne & ~aluZero));

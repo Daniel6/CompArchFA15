@@ -190,6 +190,36 @@ module testRegisterFile;
 			dutPass = 0;
 		end
 
+		// Test Case:
+		// Read from a different set of 4 registers than before
+		// And then switch back and read the same registers to see if they changed value
+		ReadRegister1_4core[3] = 5'd14;	ReadRegister2_4core[3] = 5'd1;
+		ReadRegister1_4core[2] = 5'd15; ReadRegister2_4core[2] = 5'd30;
+		ReadRegister1_4core[1] = 5'd28; ReadRegister2_4core[1] = 5'd11;
+		ReadRegister1_4core[0] = 5'd20;	ReadRegister2_4core[0] = 5'd9;
+		#2;
+		ReadRegister1_4core[3] = 5'd14;	ReadRegister2_4core[3] = 5'd13;
+		ReadRegister1_4core[2] = 5'd15; ReadRegister2_4core[2] = 5'd16;
+		ReadRegister1_4core[1] = 5'd28; ReadRegister2_4core[1] = 5'd27;
+		ReadRegister1_4core[0] = 5'd20;	ReadRegister2_4core[0] = 5'd19;
+		#2;
+		if (ReadData2_4core[3] !== 32'd87) begin
+			$display("[Test 8_1] Fail: Expected %d, got %d", 32'd87, ReadData2_4core[3]);
+			dutPass = 0;
+		end
+		if (ReadData2_4core[2] !== 32'd199) begin
+			$display("[Test 8_2] Fail: Expected %d, got %d", 32'd199, ReadData2_4core[2]);
+			dutPass = 0;
+		end
+		if (ReadData2_4core[1] !== 32'd100) begin
+			$display("[Test 8_3] Fail: Expected %d, got %d", 32'd100, ReadData2_4core[1]);
+			dutPass = 0;
+		end
+		if (ReadData2_4core[0] !== 32'd199) begin
+			$display("[Test 8_4] Fail: Expected %d, got %d", 32'd199, ReadData2_4core[0]);
+			dutPass = 0;
+		end
+
 		if (dutPass) begin
 			$display("Pass");
 		end
