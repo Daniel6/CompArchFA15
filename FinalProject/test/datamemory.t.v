@@ -46,7 +46,6 @@ module testDataMemory;
         // Test Case 1
         // test if when write enable is high,
         // the data read is the data written
-
         writeEnable_1core = 1'b1;
         address_1core = 32'b01111;
         dataIn_1core = 32'b10101;
@@ -107,6 +106,68 @@ module testDataMemory;
         if (dataOut_1core !== dataIn_1core) begin
             $display("[Test 5] Unexpected read data from %b", address_1core);
             $display("[Test 5] Expected %b, got %b", dataIn_1core, dataOut_1core);
+            dutPass = 0;
+        end
+
+        if (dutPass) begin
+            $display("Pass");
+        end
+        else begin
+            $display("Fail");
+        end
+
+        // 4 core tests
+        $display("Testing 4-Core Data Memory...");
+
+        // Test Case 6
+        // Write to 4 addresses simultaneously
+        // Read from those 4 addresses
+        // Expected Output:
+        // Read the 4 written values
+        writeEnable_4core[3:0] = 4'b1111;
+        dataIn_4core[3] = 32'd87;
+        dataIn_4core[2] = 32'd199;
+        dataIn_4core[1] = 32'd100;
+        dataIn_4core[0] = 32'd199;
+        address_4core[3] = 5'd13;
+        address_4core[2] = 5'd16;
+        address_4core[1] = 5'd27;
+        address_4core[0] = 5'd19;
+        #2;
+        for (int i = 3; i >= 0; i = i - 1) begin
+            if (dataOut_4core[i] !== dataIn_4core[i]) begin
+                $display("[Test 6_%d] Fail: Unexpected read data from %b", address_4core[i]);
+                $display("[Test 6_%d] Fail: Expected %d, got %d", i, dataIn_4core[i], dataOut_4core[i]);
+                dutPass = 0;
+            end
+        end
+
+        // Test Case 7
+        // Disable writing
+        // read from the 4 addresses that were written to in the above test case
+        // This tests data persistence, making sure the addresses maintain their values
+        // Expected Output:
+        // Read the 4 written values
+        writeEnable_4core[3:0] = 4'b0000;
+        dataIn_4core[3] = 32'd256;
+        dataIn_4core[2] = 32'd129;
+        dataIn_4core[1] = 32'd110;
+        dataIn_4core[0] = 32'd189;
+        #2;
+        if (dataOut_4core[3] !== 32'd87) begin
+            $display("[Test 7_1] Fail: Expected %d, got %d", 32'd87, dataOut_4core[3]);
+            dutPass = 0;
+        end
+        if (dataOut_4core[2] !== 32'd199) begin
+            $display("[Test 7_2] Fail: Expected %d, got %d", 32'd199, dataOut_4core[2]);
+            dutPass = 0;
+        end
+        if (dataOut_4core[1] !== 32'd100) begin
+            $display("[Test 7_3] Fail: Expected %d, got %d", 32'd100, dataOut_4core[1]);
+            dutPass = 0;
+        end
+        if (dataOut_4core[0] !== 32'd199) begin
+            $display("[Test 7_4] Fail: Expected %d, got %d", 32'd199, dataOut_4core[0]);
             dutPass = 0;
         end
 
