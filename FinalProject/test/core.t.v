@@ -13,7 +13,7 @@ module testCore;
     reg [1:0] pc_next;
     reg [1:0] reg_dst;
     reg alu_src;
-    reg [1:0] alu_ctrl;
+    reg [2:0] alu_ctrl;
     reg reg_we;
     reg [1:0] reg_in;
     reg mem_we;
@@ -21,7 +21,7 @@ module testCore;
     reg bne;
     reg [31:0] pcIn;
     reg myPc;
-    reg dataMemAddr;
+    reg [31:0] dataMemAddr;
 
     reg dutpassed;
 
