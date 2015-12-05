@@ -1,6 +1,6 @@
 
 //-------------------------------
-// Data Memory Test
+// Instruction Decoder Test
 //-------------------------------
 
 module testInstructionDecoder;

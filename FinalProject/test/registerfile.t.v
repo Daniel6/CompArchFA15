@@ -127,6 +127,68 @@ module testRegisterFile;
 		// 4 Core Tests
 		$display("Testing 4-Core Register File...");
 
+		// Test Case:
+		// Write to 4 registers simultaneously
+		// Read from those 4 registers
+		// Expected Output:
+		// Read the 4 written values
+		RegWrite_4core[3:0] = 4'b1111;
+		WriteData_4core[3] = 32'd87;
+		WriteData_4core[2] = 32'd199;
+		WriteData_4core[1] = 32'd100;
+		WriteData_4core[0] = 32'd199;
+		ReadRegister1_4core[3] = 5'd13;	ReadRegister2_4core[3] = 5'd1;
+		ReadRegister1_4core[2] = 5'd16; ReadRegister2_4core[2] = 5'd30;
+		ReadRegister1_4core[1] = 5'd27; ReadRegister2_4core[1] = 5'd11;
+		ReadRegister1_4core[0] = 5'd19;	ReadRegister2_4core[0] = 5'd9;
+		WriteRegister_4core[3] = 5'd13;
+		WriteRegister_4core[2] = 5'd16;
+		WriteRegister_4core[1] = 5'd27;
+		WriteRegister_4core[0] = 5'd19;
+		#2;
+		for (int i = 3; i >= 0; i = i - 1) begin
+			if (ReadData1_4core[i] !== WriteData_4core[i]) begin
+				$display("[Test 6_%d] Fail: Expected %d, got %d", i, WriteData_4core[i], ReadData1_4core[i]);
+				dutPass = 0;
+			end
+		end
+
+		// Test Case:
+		// Disable writing
+		// read from the 4 registers that were written to in the above test case
+		// This tests data persistence, making sure the registers maintain their values
+		// Expected Output:
+		// Read the 4 written values
+		RegWrite_4core[3:0] = 4'b0000;
+		WriteData_4core[3] = 32'd256;
+		WriteData_4core[2] = 32'd129;
+		WriteData_4core[1] = 32'd110;
+		WriteData_4core[0] = 32'd189;
+		ReadRegister1_4core[3] = 5'd13;	ReadRegister2_4core[3] = 5'd1;
+		ReadRegister1_4core[2] = 5'd16; ReadRegister2_4core[2] = 5'd30;
+		ReadRegister1_4core[1] = 5'd27; ReadRegister2_4core[1] = 5'd11;
+		ReadRegister1_4core[0] = 5'd19;	ReadRegister2_4core[0] = 5'd9;
+		WriteRegister_4core[3] = 5'd14;
+		WriteRegister_4core[2] = 5'd17;
+		WriteRegister_4core[1] = 5'd28;
+		WriteRegister_4core[0] = 5'd20;
+		#2;
+		if (ReadData1_4core[3] !== 32'd87) begin
+			$display("[Test 7_1] Fail: Expected %d, got %d", 32'd87, ReadData1_4core[3]);
+			dutPass = 0;
+		end
+		if (ReadData1_4core[2] !== 32'd199) begin
+			$display("[Test 7_2] Fail: Expected %d, got %d", 32'd199, ReadData1_4core[2]);
+			dutPass = 0;
+		end
+		if (ReadData1_4core[1] !== 32'd100) begin
+			$display("[Test 7_3] Fail: Expected %d, got %d", 32'd100, ReadData1_4core[1]);
+			dutPass = 0;
+		end
+		if (ReadData1_4core[0] !== 32'd199) begin
+			$display("[Test 7_4] Fail: Expected %d, got %d", 32'd199, ReadData1_4core[0]);
+			dutPass = 0;
+		end
 
 		if (dutPass) begin
 			$display("Pass");

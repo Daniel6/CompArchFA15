@@ -14,48 +14,49 @@ module core
     input mem_we,
     input beq,
     input bne,
-    output [31:0] pcIn,
+    input [31:0] pcIn,
+    output [31:0] pcRes,
     output myPc,
-    output dataMemAddr
+    output [31:0] aluRes
 );
 
     // Program Counter
-    assign pcAddOut = pcOut + pcAddMuxOut;
-    mux4 pcMux(.out(pcIn),
+    wire [31:0] pcJump;
+    wire [31:0] seImm;
+    wire [31:0] pcAddOut;
+    assign pcAddOut = pcIn + pcAddMuxOut;
+    mux4 pcMux(.out(pcRes),
                .address(pc_next),
                .input0(pcAddOut),
                .input1(pcJump),
                .input2(regDataA));
 
     // selector for pc
-    myPc = (branch | pc_next[0] | pc_next[1]);
+    assign myPc = (branch | pc_next[0] | pc_next[1]);
 
     // Program Counter Adder
-    wire [31:0] pcAddOut, pcAddMuxOut;
+    wire [31:0] pcAddMuxOut;
     mux2 pcAddMux(.out(pcAddMuxOut),
                   .address(branch),
                   .input0(4),
                   .input1(4 * seImm + 4));
 
     // Concatenator
-    wire [31:0] pcJump;
-    assign pcJump = { pcOut[31:28], addr, 2'b00 };
+    assign pcJump = { pcIn[31:28], addr, 2'b00 };
 
     // Sign Extender
-    wire [31:0] seImm;
-    assign seImm = { { 16 { imm16Out[15] } }, imm16Out };
+    assign seImm = { { 16 { imm[15] } }, imm };
 
     // ALU
     wire [31:0] aluOpA, aluOpB;
     wire aluCarryout, aluZero, aluOverflow;
-    wire [2:0] aluCommand;
-    ALU alu(.result(dataMemAddr),
+    ALU alu(.result(aluRes),
             .carryout(aluCarryOut),
             .zero(aluZero),
             .overflow(aluOverflow),
             .operandA(aluOpA),
             .operandB(aluOpB),
-            .command(AluCtrl));
+            .command(alu_ctrl));
 
     assign aluOpA = regDataA;
 
@@ -65,7 +66,6 @@ module core
                  .input1(regDataB));
 
     // Branch Control
-    wire branch;
-    assign branch = ((BEQ & aluZero) | (BNE & ~aluZero));
+    assign branch = ((beq & aluZero) | (bne & ~aluZero));
 
 endmodule
