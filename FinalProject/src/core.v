@@ -14,24 +14,26 @@ module core
     input mem_we,
     input beq,
     input bne,
-    output [31:0] pcIn,
+    input [31:0] pcIn,
+    output [31:0] pcRes,
     output myPc,
     output dataMemAddr
 );
 
     // Program Counter
-    assign pcAddOut = pcOut + pcAddMuxOut;
-    mux4 pcMux(.out(pcIn),
+    wire [31:0] pcAddOut;
+    assign pcAddOut = pcIn + pcAddMuxOut;
+    mux4 pcMux(.out(pcRes),
                .address(pc_next),
                .input0(pcAddOut),
                .input1(pcJump),
                .input2(regDataA));
 
     // selector for pc
-    myPc = (branch | pc_next[0] | pc_next[1]);
+    assign myPc = (branch | pc_next[0] | pc_next[1]);
 
     // Program Counter Adder
-    wire [31:0] pcAddOut, pcAddMuxOut;
+    wire [31:0] pcAddMuxOut;
     mux2 pcAddMux(.out(pcAddMuxOut),
                   .address(branch),
                   .input0(4),
@@ -42,7 +44,6 @@ module core
     assign pcJump = { pcOut[31:28], addr, 2'b00 };
 
     // Sign Extender
-    wire [31:0] seImm;
     assign seImm = { { 16 { imm16Out[15] } }, imm16Out };
 
     // ALU
@@ -65,7 +66,6 @@ module core
                  .input1(regDataB));
 
     // Branch Control
-    wire branch;
     assign branch = ((BEQ & aluZero) | (BNE & ~aluZero));
 
 endmodule

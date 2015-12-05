@@ -6,19 +6,26 @@
 module controlTable
 (
     input           clk,
-    input [5:0]     op,
-    input [5:0]     funct,
+    input[31:0] instruction,
     output reg [1:0] pc_next,
-    output reg [1:0] reg_dst,
     output reg alu_src,
     output reg [1:0] alu_ctrl,
     output reg reg_we,
     output reg [1:0] reg_in,
     output reg mem_we,
     output reg beq,
-    output reg bne
+    output reg bne,
+    output reg[25:0]    target,
+    output reg[15:0]    imm,
+    output reg[4:0]     rs,
+    output reg[4:0]     rt,
+    output reg[4:0]     aw
 );
 
+    reg[4:0] rd;
+    reg[5:0] op;
+    reg[5:0] func;
+    reg [1:0] reg_dst,
 parameter lw = 6'b100011;
 parameter sw = 6'b101011;
 parameter j = 6'b000010;
@@ -33,6 +40,15 @@ parameter sub = 6'b100010;
 parameter slt = 6'b101010;
 parameter jr = 6'b001000;
 
+always @(posedge clk) begin
+        op = instruction[31:26];
+        rs = instruction[25:21];
+        rt = instruction[20:16];
+        rd = instruction[15:11];
+        func = instruction[5:0];
+        imm = instruction[15:0];
+        target = instruction[25:0];
+end
 
 
 always @ (posedge clk or op or funct) begin
@@ -234,6 +250,14 @@ always @ (posedge clk or op or funct) begin
   endcase
     /*$display("pc_next: %b", pc_next);
     $display("op: %b", op);*/
+    wire [4:0] ra = 5'd31;
+
+   mux4 regWriteAddrMux(.out(aw),
+                         .address(reg_dst),
+                         .input0(rt),
+                         .input1(rd),
+                         .input2(ra));
+
 
 end
 
