@@ -164,29 +164,29 @@
 // 	end
 // endmodule // test4Core_StoreWord
 
-/*
-	Test JR functionality of 4 core processor
-	similar to J, but jumps to an absolute address
-*/
-module test4Core_JumpRegister #(parameter instructions_root = "../instructions/");
-	reg clk;
-	initial clk = 0;
-	always #1 clk = !clk;
+// /*
+// 	Test JR functionality of 4 core processor
+// 	similar to J, but jumps to an absolute address
+// */
+// module test4Core_JumpRegister #(parameter instructions_root = "../instructions/");
+// 	reg clk;
+// 	initial clk = 0;
+// 	always #1 clk = !clk;
 
-	cpu #(.cores(4), .instruction_file({instructions_root, "jump-register.dat"})) DUT7 (.clk(clk));
-	initial begin
-		$dumpfile("cpu7.vcd"); //dump info to create wave propagation later
-        $dumpvars(0, test4Core_JumpRegister);
-		#4;
-		if (DUT7.pcOut !== 32'd12) begin
-			$display("4 Core JR test failed. Expected PC %d, got %d", DUT7.pcOut, 32'd12);
-		end
-		else begin
-			$display("4 Core JR test passed.");
-		end
-		$finish;
-	end
-endmodule // test4Core_JumpRegister
+// 	cpu #(.cores(4), .instruction_file({instructions_root, "jump-register.dat"})) DUT7 (.clk(clk));
+// 	initial begin
+// 		$dumpfile("cpu7.vcd"); //dump info to create wave propagation later
+//         $dumpvars(0, test4Core_JumpRegister);
+// 		#4;
+// 		if (DUT7.pcOut !== 32'd12) begin
+// 			$display("4 Core JR test failed. Expected PC %d, got %d", DUT7.pcOut, 32'd12);
+// 		end
+// 		else begin
+// 			$display("4 Core JR test passed.");
+// 		end
+// 		$finish;
+// 	end
+// endmodule // test4Core_JumpRegister
 
 // /*
 // 	Test JAL functionality of 4 core processor
@@ -205,40 +205,42 @@ endmodule // test4Core_JumpRegister
 // 		$dumpfile("cpu8.vcd"); //dump info to create wave propagation later
 //         $dumpvars(0, test4Core_JumpAndLink);
 // 		#2;
-// 		if (DUT8.pc !== 32'd8 ||
+// 		if (DUT8.pcOut !== 32'd8 ||
 // 			DUT8.regfile.registers[31] !== 32'd4) begin
-// 			$display("4 Core JR test failed.");
+// 			$display("4 Core JAL test failed.");
+// 			$display("PC should be %d, got %d", 32'd8, DUT8.pcOut);
+// 			$display("Reg should be %d, got %d", 32'd4, DUT8.regfile.registers[31]);
 // 		end
 // 		else begin
-// 			$display("4 Core JR test passed.");
+// 			$display("4 Core JAL test passed.");
 // 		end
 // 		$finish;
 // 	end
 // endmodule // test4Core_JumpAndLink
 
-// /*
-// 	Test BNE functionality of 4 core processor
-// 	jumps if two values are not equal to each other
-// */
-// module test4Core_BranchNotEqual #(parameter instructions_root = "../instructions/");
-// 	reg clk;
-// 	initial clk = 0;
-// 	always #1 clk = !clk;
+/*
+	Test BNE functionality of 4 core processor
+	jumps if two values are not equal to each other
+*/
+module test4Core_BranchNotEqual #(parameter instructions_root = "../instructions/");
+	reg clk;
+	initial clk = 0;
+	always #1 clk = !clk;
 
-// 	cpu #(.cores(4), .instruction_file({instructions_root, "branch-not-equal.dat"})) DUT9 (.clk(clk));
-// 	initial begin
-// 		$dumpfile("cpu9.vcd"); //dump info to create wave propagation later
-//         $dumpvars(0, test4Core_BranchNotEqual);
-// 		#4;
-// 		if (DUT9.pc !== 32'd12) begin
-// 			$display("4 Core BNE test failed.");
-// 		end
-// 		else begin
-// 			$display("4 Core BNE test passed.");
-// 		end
-// 		$finish;
-// 	end
-// endmodule // test4Core_BranchNotEqual
+	cpu #(.cores(4), .instruction_file({instructions_root, "branch-not-equal.dat"})) DUT9 (.clk(clk));
+	initial begin
+		$dumpfile("cpu9.vcd"); //dump info to create wave propagation later
+        $dumpvars(0, test4Core_BranchNotEqual);
+		#4;
+		if (DUT9.pcOut !== 32'd12) begin
+			$display("4 Core BNE test failed expected PC %d, got %d", 32'd12, DUT9.pcOut);
+		end
+		else begin
+			$display("4 Core BNE test passed.");
+		end
+		$finish;
+	end
+endmodule // test4Core_BranchNotEqual
 
 // /*
 // 	Test BEQ functionality of 4 core processor
