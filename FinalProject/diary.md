@@ -36,4 +36,6 @@ Today we finished off the 4-core tests for the register file and made some stuff
 
 ###12/6
 Today we made a cpu module!!! So that means that assuming everything works and we didn't make any typos or have any errors in our logic when designing our cpu, our design/coding phase should be done. In order to test our cpu, we also wrote a bunch of assembly tests and are making an automated test verilog module for our cpu so we don't have to just rely at looking at the waveforms to check if our cpu works. Our next steps will include debugging, assuming we find problems when we run the test script, and then analyzing how the speed of our multi-core cpu compares to the speed of a regular single cycle MIPS cpu.
-Our JAL is different than ordinary MIPS JAL
+Our JAL is different than ordinary MIPS JAL, it returns to PC+4 not PC+8.
+We worked on a lot of tests today, some of them work now! We were debugging our LW test and found an assembly error, that's good.
+We also discovered that we accidentally made a multi-cycle cpu instead of a single cycle one, so we fixed that.
