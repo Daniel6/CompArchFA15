@@ -6,18 +6,18 @@ module test4Core_Addition #(parameter instructions_root = "../instructions/");
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "add-4-cores.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "add-4-cores.dat"})) DUT1 (.clk(clk));
 
 	initial begin
 		#8;
-		if (cpu.registerfile.registers[12] !== 32'd4 ||
-			cpu.registerfile.registers[13] !== 32'd5 ||
-			cpu.registerfile.registers[14] !== 32'd3 ||
-			cpu.registerfile.registers[15] !== 32'd2) begin
+		if (DUT1.registerfile.registers[12] !== 32'd4 ||
+			DUT1.registerfile.registers[13] !== 32'd5 ||
+			DUT1.registerfile.registers[14] !== 32'd3 ||
+			DUT1.registerfile.registers[15] !== 32'd2) begin
 			$display("4 Core Addition test failed.");
 		end
  	end
-endmodule
+endmodule // test4Core_Addition
 
 /*
 	Test jumping capability of 4 core processor
@@ -28,16 +28,16 @@ module test4Core_jump #(parameter instructions_root = "../instructions/");
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "jump.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "jump.dat"})) DUT2 (.clk(clk));
 
 	initial begin
 		expected_pc = 32'd8;
 		#2;
-		if (cpu.pc !== expected_pc) begin
-			$display("4 Core Jump test failed. Expected PC %d but ended at %d", expected_pc, cpu.pc);
+		if (DUT2.pc !== expected_pc) begin
+			$display("4 Core Jump test failed. Expected PC %d but ended at %d", expected_pc, DUT.pc);
 		end
 	end
-end
+endmodule // test4Core_jump
 
 /*
 	Test XOR Immediate functionality of 4 core processor
@@ -48,18 +48,18 @@ module test4Core_xori #(parameter instructions_root = "../instructions/");
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "xori-4-cores.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "xori-4-cores.dat"})) DUT3 (.clk(clk));
 
 	initial begin
 		#4;
-		if (cpu.registerfile.registers[9] !== 32'd1 ||
-			cpu.registerfile.registers[10] !== 32'd2 ||
-			cpu.registerfile.registers[11] !== 32'd2 ||
-			cpu.registerfile.registers[12] !== 32'd6) begin
+		if (DUT3.registerfile.registers[9] !== 32'd1 ||
+			DUT3.registerfile.registers[10] !== 32'd2 ||
+			DUT3.registerfile.registers[11] !== 32'd2 ||
+			DUT3.registerfile.registers[12] !== 32'd6) begin
 			$display("4 Core XORI test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_xori
 
 /*
 	Test SUB functionality of 4 core processor
@@ -69,18 +69,18 @@ module test4Core_Subtraction #(parameter instructions_root = "../instructions/")
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "sub-4-cores.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "sub-4-cores.dat"})) DUT4 (.clk(clk));
 
 	initial begin
 		#4;
-		if (cpu.registerfile.registers[12] !== 32'd2 ||
-			cpu.registerfile.registers[13] !== 32'd1 ||
-			cpu.registerfile.registers[14] !== 32'd1 ||
-			cpu.registerfile.registers[15] !== 32'd0) begin
+		if (DUT4.registerfile.registers[12] !== 32'd2 ||
+			DUT4.registerfile.registers[13] !== 32'd1 ||
+			DUT4.registerfile.registers[14] !== 32'd1 ||
+			DUT4.registerfile.registers[15] !== 32'd0) begin
 			$display("4 Core SUB test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_Subtraction
 
 /*
 	Test LW functionality of 4 core processor
@@ -92,21 +92,21 @@ module test4Core_LoadWord #(parameter instructions_root = "../instructions/");
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "load-4-cores.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "load-4-cores.dat"})) DUT5 (.clk(clk));
 	initial begin
-		cpu.datamemory.memory[0] = 32'd100;
-		cpu.datamemory.memory[1] = 32'd101;
-		cpu.datamemory.memory[2] = 32'd102;
-		cpu.datamemory.memory[3] = 32'd103;
+		DUT5.datamemory.memory[0] = 32'd100;
+		DUT5.datamemory.memory[1] = 32'd101;
+		DUT5.datamemory.memory[2] = 32'd102;
+		DUT5.datamemory.memory[3] = 32'd103;
 		#4;
-		if (cpu.registerfile.registers[12] !== cpu.datamemory.memory[0] ||
-			cpu.registerfile.registers[13] !== cpu.datamemory.memory[1] ||
-			cpu.registerfile.registers[14] !== cpu.datamemory.memory[2] ||
-			cpu.registerfile.registers[15] !== cpu.datamemory.memory[3]) begin
+		if (DUT5.registerfile.registers[12] !== DUT5.datamemory.memory[0] ||
+			DUT5.registerfile.registers[13] !== DUT5.datamemory.memory[1] ||
+			DUT5.registerfile.registers[14] !== DUT5.datamemory.memory[2] ||
+			DUT5.registerfile.registers[15] !== DUT5.datamemory.memory[3]) begin
 			$display("4 Core LW test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_LoadWord
 
 /*
 	Test SW functionality of 4 core processor
@@ -116,17 +116,17 @@ module test4Core_StoreWord #(parameter instructions_root = "../instructions/");
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "store-4-cores.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "store-4-cores.dat"})) DUT6 (.clk(clk));
 	initial begin
 		#4;
-		if (cpu.datamemory.memory[0] !== 32'd3 ||
-			cpu.datamemory.memory[1] !== 32'd2 ||
-			cpu.datamemory.memory[2] !== 32'd1 ||
-			cpu.datamemory.memory[3] !== 32'd0) begin
+		if (DUT6.datamemory.memory[0] !== 32'd3 ||
+			DUT6.datamemory.memory[1] !== 32'd2 ||
+			DUT6.datamemory.memory[2] !== 32'd1 ||
+			DUT6.datamemory.memory[3] !== 32'd0) begin
 			$display("4 Core SW test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_StoreWord
 
 /*
 	Test JR functionality of 4 core processor
@@ -137,14 +137,14 @@ module test4Core_JumpRegister #(parameter instructions_root = "../instructions/"
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "jump-register.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "jump-register.dat"})) DUT7 (.clk(clk));
 	initial begin
 		#4;
-		if (cpu.pc !== 32'd12) begin
+		if (DUT7.pc !== 32'd12) begin
 			$display("4 Core JR test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_JumpRegister
 
 /*
 	Test JAL functionality of 4 core processor
@@ -158,15 +158,15 @@ module test4Core_JumpAndLink #(parameter instructions_root = "../instructions/")
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "jump-and-link.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "jump-and-link.dat"})) DUT8 (.clk(clk));
 	initial begin
 		#2;
-		if (cpu.pc !== 32'd8 ||
-			cpu.registerfile.registers[31] !== 32'd4) begin
+		if (DUT8.pc !== 32'd8 ||
+			DUT8.registerfile.registers[31] !== 32'd4) begin
 			$display("4 Core JR test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_JumpAndLink
 
 /*
 	Test BNE functionality of 4 core processor
@@ -177,14 +177,14 @@ module test4Core_BranchNotEqual #(parameter instructions_root = "../instructions
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "branch-not-equal.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "branch-not-equal.dat"})) DUT9 (.clk(clk));
 	initial begin
 		#4;
-		if (cpu.pc !== 32'd12) begin
+		if (DUT9.pc !== 32'd12) begin
 			$display("4 Core BNE test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_BranchNotEqual
 
 /*
 	Test BEQ functionality of 4 core processor
@@ -195,32 +195,32 @@ module test4Core_BranchEqual #(parameter instructions_root = "../instructions/")
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "branch-equal.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "branch-equal.dat"})) DUT10 (.clk(clk));
 	initial begin
 		#4;
-		if (cpu.pc !== 32'd12) begin
+		if (DUT10.pc !== 32'd12) begin
 			$display("4 Core BEQ test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_BranchEqual
 
 /*
 	Test SLT functionality of 4 core processor
 	compare two values and store either 1 or 0 in the result register representing boolean value of lessthan comparator
 */
-module test4Core_SignedLessThan #(parameter instructions_root = "../instructions/");
+module test4Core_SetLessThan #(parameter instructions_root = "../instructions/");
 	reg clk;
 	initial clk = 0;
 	always #1 clk = !clk;
 
-	cpu DUT #(.cores(4), .instruction_file({instructions_root, "slt.dat"})) (.clk(clk));
+	cpu #(.cores(4), .instruction_file({instructions_root, "slt-4-cores.dat"})) DUT11 (.clk(clk));
 	initial begin
 		#4;
-		if (cpu.registerfile.registers[12] !== 32'd1 ||
-			cpu.registerfile.registers[13] !== 32'd0 ||
-			cpu.registerfile.registers[14] !== 32'd0 ||
-			cpu.registerfile.registers[15] !== 32'd0) begin
+		if (DUT11.registerfile.registers[12] !== 32'd1 ||
+			DUT11.registerfile.registers[13] !== 32'd0 ||
+			DUT11.registerfile.registers[14] !== 32'd0 ||
+			DUT11.registerfile.registers[15] !== 32'd0) begin
 			$display("4 Core SLT test failed.");
 		end
 	end
-endmodule
+endmodule // test4Core_SetLessThan

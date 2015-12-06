@@ -28,11 +28,11 @@ input[31:0]     input0, input1, input2, input3
   assign out = mux[address];    // Connect the output of the array
 endmodule
 
-module mux3 #(cores = 1)
+module mux3
 (
-  output[cores-1:0][31:0]    out,
-  input[cores-1:0][1:0]      address,
-  input[cores-1:0][31:0]     input0, input1, input2
+  output[31:0]    out,
+  input[1:0]      address,
+  input[2:0][31:0]     input0, input1, input2
 );
 
   wire[31:0] mux[2:0];         // Create a 2D array of wires
