@@ -8,13 +8,14 @@ module cpu
 );
 	
 	// program counter
-	reg [31:0] pc;
-	pc = 32'b0;
+	wire [31:0] pcOut;
+    wire [31:0] pcIn;
+	PC pc(.clk(clk), .in(pcIn), .out(pcOut));
 
 	// shared instruction memory
 	wire [32*cores-1:0] dataOut;
 	instructionmemory #(cores, instruction_file) im(.clk(clk),
-												.address(pc),
+												.address(pcOut),
 												.dataOut(dataOut));
 
 
@@ -90,7 +91,7 @@ module cpu
 									.alu_ctrl(alu_ctrl[i]),
 									.beq(beq[i]),
 									.bne(bne[i]),
-									.pcIn(pc),
+									.pcIn(pcOut),
 									.pcRes(pcRes[i]),
 									.myPc(myPc[i]),
 									.aluRes(aluRes[i]));
@@ -112,14 +113,14 @@ module cpu
 								.address(reg_in[i]),
 								.input0(aluRes[i]),
 								.input1(memDataOut[i]),
-								.input2(pc + 4));
+								.input2(pcOut + 4));
 		end
 	endgenerate
 
 	// mux chain module to chose if the pc should jump or be pc + 4
-	pcjumper #(cores) pcjump (	.pc_plus4(pc + 4),
+	pcjumper #(cores) pcjump (	.pc_plus4(pcOut + 4),
 								.core_pcs(pcRes),
 								.core_controls(myPc),
-								.next_pc(pc));
+								.next_pc(pcIn));
 
 endmodule
