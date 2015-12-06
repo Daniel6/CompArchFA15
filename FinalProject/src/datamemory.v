@@ -7,7 +7,7 @@
 module datamemory 
 #(
     parameter cores = 1
-    // parameter data = "data.dat"
+    // parameter data = "datamemory.dat"
 )
 (
     input                           clk,
@@ -19,7 +19,7 @@ module datamemory
 
     reg [31:0] memory [2**10-1:0];
 
-    // initial $readmemh(data, memory);
+    // initial $readmemh(datamemory, memory);
 
     genvar i;
     generate
