@@ -105,11 +105,11 @@ module cpu
 							.dataOut(memDataOut));
 
 	// 3-input mux to choose which data to write to the shared register file
-	mux3 regwrite_mux (	.out(regWriteData),
-						.address(reg_in),
-						.input0(aluRes),
-						.input1(memDataOut),
-						.input2(pc + 4));
+	mux3 #(cores) regwrite_mux (.out(regWriteData),
+								.address(reg_in),
+								.input0(aluRes),
+								.input1(memDataOut),
+								.input2(pc + 4));
 
 	// mux chain module to chose if the pc should jump or be pc + 4
 	pcjumper #(cores) pcjump (	.pc_plus4(pc + 4),
