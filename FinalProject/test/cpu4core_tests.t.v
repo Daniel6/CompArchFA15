@@ -236,7 +236,7 @@ module test4Core_BranchNotEqual #(parameter instructions_root = "../instructions
 			$display("4 Core BNE test failed expected PC %d, got %d", 32'd12, DUT9.pcOut);
 		end
 		else begin
-			$display("4 Core BNE test passed.");
+			$display("4 Core BNE test passed");
 		end
 		$finish;
 	end
