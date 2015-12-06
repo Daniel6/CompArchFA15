@@ -17,7 +17,7 @@ module instructionmemory
 
     reg [32*cores-1:0] memory [2**10-1:0];
 
-    initial $readmemh(instructions, memory);
+    initial $readmemb(instructions, memory);
 
     always @(posedge clk) begin
         dataOut <= memory[address];
