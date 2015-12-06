@@ -42,8 +42,8 @@ module cpu
     wire [cores-1:0] [4:0]  aw;
 	genvar i;
 	generate
-		for (i = cores; i < 0; i = i -1) begin : CONTROLTABLE
-			controlTable controlTable (	.clk(clk),
+		for (i = cores-1; i >= 0; i = i -1) begin : CONTROLTABLE
+			controlTable controltable (	.clk(clk),
 										.instruction(instructions[i]),
 										.pc_next(pc_next[i]),
 										.alu_src(alu_src[i]),
@@ -80,7 +80,7 @@ module cpu
     wire [cores-1:0] 		myPc;
     wire [cores-1:0] [31:0] aluRes;
 	generate
-		for (i = cores; i < 0; i = i - 1) begin : CORES
+		for (i = cores-1; i >= 0; i = i - 1) begin : CORES
 			core core_instantiation(.clk(clk),
 									.regDataA(regDataA[i]),
 									.regDataB(regDataB[i]),
@@ -108,7 +108,7 @@ module cpu
 
 	// 3-input mux to choose which data to write to the shared register file
 	generate
-		for (i = cores; i < 0; i = i - 1) begin : MUX
+		for (i = cores-1; i >= 0; i = i - 1) begin : MUX
 			mux3 regwrite_mux ( .out(regWriteData[i]),
 								.address(reg_in[i]),
 								.input0(aluRes[i]),

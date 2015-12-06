@@ -6,10 +6,28 @@ input[31:0]    input0, input1
 );
 
   wire[31:0] mux[1:0];
-
+  reg [31:0] placeholder;
   assign mux[0] = input0;
   assign mux[1] = input1;
-  assign out = mux[address];
+  assign out = placeholder;
+
+  initial begin
+    if (address === 1'bx) begin
+      placeholder = mux[0];
+    end
+    else begin
+      placeholder = mux[address];
+    end
+  end
+
+  always @(address or input0 or input1) begin
+    if (address === 1'bx) begin
+      placeholder = mux[0];
+    end
+    else begin
+      placeholder = mux[address];
+    end
+  end
 endmodule
 
 module mux4

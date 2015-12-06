@@ -19,7 +19,6 @@ module core
     output myPc,
     output [31:0] aluRes
 );
-
     // Program Counter
     wire [31:0] pcJump;
     wire [31:0] seImm;
