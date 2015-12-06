@@ -179,7 +179,7 @@ module test4Core_JumpRegister #(parameter instructions_root = "../instructions/"
         $dumpvars(0, test4Core_JumpRegister);
 		#4;
 		if (DUT7.pcOut !== 32'd12) begin
-			$display("4 Core JR test failed.");
+			$display("4 Core JR test failed. Expected PC %d, got %d", DUT7.pcOut, 32'd12);
 		end
 		else begin
 			$display("4 Core JR test passed.");
