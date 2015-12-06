@@ -9,5 +9,7 @@ xori $t4, $t2, 4
 
 # and again
 j START
-
+nop
+nop
+nop
 
