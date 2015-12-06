@@ -65,6 +65,7 @@ module cpu
 	wire [cores-1:0] [31:0] regDataA;
 	wire [cores-1:0] [31:0] regDataB;
 	wire [cores-1:0] [31:0] regWriteData;
+	wire [31:0] isaacs_special [31:0];
 	registerfile #(cores) regfile ( .clk(clk),
 									.write_enable(reg_we),
 									.write_address(aw),
@@ -72,7 +73,8 @@ module cpu
 									.read_address_2(rt),
 									.write_data(regWriteData),
 									.read_data_1(regDataA),
-									.read_data_2(regDataB));
+									.read_data_2(regDataB),
+									.registers(isaacs_special));
 
 
   	// generate cores number of core modules

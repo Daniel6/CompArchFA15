@@ -26,7 +26,7 @@ module vliwsplitter
     generate
         for (i = cores; i > 0; i = i - 1) begin : SPLIT
             // Split the vliw into individual instructions
-            always @(posedge clk) begin
+            always @(vliw) begin
                 instructions[i-1] <= vliw[inst_len*i-1:inst_len*(i-1)];
             end
         end

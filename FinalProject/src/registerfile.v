@@ -5,6 +5,7 @@ module registerfile
 (
   output [cores-1:0] [31:0] read_data_1,
   output [cores-1:0] [31:0] read_data_2,
+  output reg [31:0] registers[31:0],
   input [cores-1:0] [31:0] write_data,
   input [cores-1:0] [4:0] read_address_1,
   input [cores-1:0] [4:0] read_address_2,
@@ -12,7 +13,7 @@ module registerfile
   input [cores-1:0] write_enable,
   input clk
 );
-  reg [31:0] registers[31:0];
+  
   initial begin
     registers[5'd0] = 32'b0;     // $zero
     registers[5'd29] = 32'h3ffc; // $sp
@@ -21,7 +22,7 @@ module registerfile
   genvar i;
   generate
     for (i = cores-1; i >= 0; i = i - 1) begin : WRITE
-      always @(posedge clk) begin
+      always @(write_data or read_address_1 or read_address_2 or write_address or write_enable) begin
         // if write enable flag is given and
         // the register to write to is not
         // the constant $zero, allow it

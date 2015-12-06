@@ -1,36 +1,36 @@
-/*
-	Test addition capability of 4 core processor
-*/
-module test4Core_Addition #(parameter instructions_root = "../instructions/");
-	reg clk;
-	initial clk = 0;
-	always #1 clk = !clk;
+// /*
+// 	Test addition capability of 4 core processor
+// */
+// module test4Core_Addition #(parameter instructions_root = "../instructions/");
+// 	reg clk;
+// 	initial clk = 0;
+// 	always #1 clk = !clk;
 
-	cpu #(.cores(4), .instruction_file({instructions_root, "add-4-cores.dat"})) DUT1 (.clk(clk));
+// 	cpu #(.cores(4), .instruction_file({instructions_root, "add-4-cores.dat"})) DUT1 (.clk(clk));
 
-	initial begin
-		$dumpfile("cpu1.vcd"); //dump info to create wave propagation later
-        $dumpvars(0, test4Core_Addition);
-		#8;
-		if (DUT1.regfile.registers[12] !== 32'd4 ||
-			DUT1.regfile.registers[13] !== 32'd5 ||
-			DUT1.regfile.registers[14] !== 32'd3 ||
-			DUT1.regfile.registers[15] !== 32'd2) begin
-			$display("4 Core ADD test failed.");
-		end
-		else begin
-			$display("4 Core ADD test passed.");
-		end
-		$finish;
- 	end
-endmodule // test4Core_Addition
+// 	initial begin
+// 		$dumpfile("cpu1.vcd"); //dump info to create wave propagation later
+//         $dumpvars(0, test4Core_Addition);
+// 		#16;
+// 		if (DUT1.regfile.registers[12] !== 32'd4 ||
+// 			DUT1.regfile.registers[13] !== 32'd5 ||
+// 			DUT1.regfile.registers[14] !== 32'd3 ||
+// 			DUT1.regfile.registers[15] !== 32'd2) begin
+// 			$display("4 Core ADD test failed.");
+// 		end
+// 		else begin
+// 			$display("4 Core ADD test passed.");
+// 		end
+// 		$finish;
+//  	end
+// endmodule // test4Core_Addition
 
 // /*
 // 	Test jumping capability of 4 core processor
 // */
 // module test4Core_jump #(parameter instructions_root = "../instructions/");
 // 	reg clk;
-// 	reg expected_pc;
+// 	reg[31:0] expected_pc;
 // 	initial clk = 0;
 // 	always #1 clk = !clk;
 
@@ -41,8 +41,8 @@ endmodule // test4Core_Addition
 //         $dumpvars(0, test4Core_jump);
 // 		expected_pc = 32'd8;
 // 		#2;
-// 		if (DUT2.pc !== expected_pc) begin
-// 			$display("4 Core J test failed. Expected PC %d but ended at %d", expected_pc, DUT2.pc);
+// 		if (DUT2.pcOut !== expected_pc) begin
+// 			$display("4 Core J test failed. Expected PC %d but ended at %d", expected_pc, DUT2.pcOut);
 // 		end
 // 		else begin
 // 			$display("4 Core J test passed.");
@@ -106,37 +106,37 @@ endmodule // test4Core_Addition
 // 	end
 // endmodule // test4Core_Subtraction
 
-// /*
-// 	Test LW functionality of 4 core processor
-// 	manually assign values to 4 memory addresses
-// 	load those 4 memory addresses into register file
-// */
-// module test4Core_LoadWord #(parameter instructions_root = "../instructions/");
-// 	reg clk;
-// 	initial clk = 0;
-// 	always #1 clk = !clk;
+/*
+	Test LW functionality of 4 core processor
+	manually assign values to 4 memory addresses
+	load those 4 memory addresses into register file
+*/
+module test4Core_LoadWord #(parameter instructions_root = "../instructions/");
+	reg clk;
+	initial clk = 0;
+	always #1 clk = !clk;
 
-// 	cpu #(.cores(4), .instruction_file({instructions_root, "load-4-cores.dat"})) DUT5 (.clk(clk));
-// 	initial begin
-// 		$dumpfile("cpu5.vcd"); //dump info to create wave propagation later
-//         $dumpvars(0, test4Core_LoadWord);
-// 		DUT5.dm.memory[0] = 32'd100;
-// 		DUT5.dm.memory[1] = 32'd101;
-// 		DUT5.dm.memory[2] = 32'd102;
-// 		DUT5.dm.memory[3] = 32'd103;
-// 		#4;
-// 		if (DUT5.regfile.registers[12] !== DUT5.dm.memory[0] ||
-// 			DUT5.regfile.registers[13] !== DUT5.dm.memory[1] ||
-// 			DUT5.regfile.registers[14] !== DUT5.dm.memory[2] ||
-// 			DUT5.regfile.registers[15] !== DUT5.dm.memory[3]) begin
-// 			$display("4 Core LW test failed.");
-// 		end
-// 		else begin
-// 			$display("4 Core LW test passed.");
-// 		end
-// 		$finish;
-// 	end
-// endmodule // test4Core_LoadWord
+	cpu #(.cores(4), .instruction_file({instructions_root, "load-4-cores.dat"})) DUT5 (.clk(clk));
+	initial begin
+		$dumpfile("cpu5.vcd"); //dump info to create wave propagation later
+        $dumpvars(0, test4Core_LoadWord);
+		DUT5.dm.memory[0] = 32'd100;
+		DUT5.dm.memory[1] = 32'd101;
+		DUT5.dm.memory[2] = 32'd102;
+		DUT5.dm.memory[3] = 32'd103;
+		#4;
+		if (DUT5.regfile.registers[12] !== DUT5.dm.memory[0] ||
+			DUT5.regfile.registers[13] !== DUT5.dm.memory[1] ||
+			DUT5.regfile.registers[14] !== DUT5.dm.memory[2] ||
+			DUT5.regfile.registers[15] !== DUT5.dm.memory[3]) begin
+			$display("4 Core LW test failed.");
+		end
+		else begin
+			$display("4 Core LW test passed.");
+		end
+		$finish;
+	end
+endmodule // test4Core_LoadWord
 
 // /*
 // 	Test SW functionality of 4 core processor

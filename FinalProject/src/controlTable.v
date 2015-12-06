@@ -48,7 +48,7 @@ parameter jr = 6'b001000;
                          .input1(rd),
                          .input2(ra));
 
-always @(posedge clk) begin
+always @(instruction) begin
         op = instruction[31:26];
         rs = instruction[25:21];
         rt = instruction[20:16];
@@ -59,7 +59,7 @@ always @(posedge clk) begin
 end
 
 
-always @ (posedge clk or op or funct) begin
+always @ (op or funct) begin
 
   case (op)
 

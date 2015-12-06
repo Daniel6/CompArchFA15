@@ -38,12 +38,31 @@ input[31:0]     input0, input1, input2, input3
 );
 
   wire[31:0] mux[3:0];         // Create a 2D array of wires
-
+  reg [31:0] placeholder;
   assign mux[0] = input0;       // Connect the sources of the array
   assign mux[1] = input1;
   assign mux[2] = input2;
   assign mux[3] = input3;
-  assign out = mux[address];    // Connect the output of the array
+
+  assign out = placeholder;
+
+  initial begin
+    if (address === 1'bx) begin
+      placeholder = mux[0];
+    end
+    else begin
+      placeholder = mux[address];
+    end
+  end
+
+  always @(address or input0 or input1) begin
+    if (address === 1'bx) begin
+      placeholder = mux[0];
+    end
+    else begin
+      placeholder = mux[address];
+    end
+  end
 endmodule
 
 module mux3
@@ -54,11 +73,31 @@ module mux3
 );
 
   wire[31:0] mux[2:0];         // Create a 2D array of wires
-
+  reg [31:0] placeholder;
   assign mux[0] = input0;       // Connect the sources of the array
   assign mux[1] = input1;
   assign mux[2] = input2;
-  assign out = mux[address];    // Connect the output of the array
+  
+  assign out = placeholder;
+
+  initial begin
+    if (address === 1'bx) begin
+      placeholder = mux[0];
+    end
+    else begin
+      placeholder = mux[address];
+    end
+  end
+
+  always @(address or input0 or input1) begin
+    if (address === 1'bx) begin
+      placeholder = mux[0];
+    end
+    else begin
+      placeholder = mux[address];
+    end
+  end
+  
 endmodule
 
 module multiplexer(

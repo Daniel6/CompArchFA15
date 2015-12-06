@@ -18,7 +18,7 @@ module instructiondecoder
     output reg[4:0]     rd
 
 );
-    always @(posedge clk) begin
+    always @(instruction) begin
         op = instruction[31:26];
         rs = instruction[25:21];
         rt = instruction[20:16];
