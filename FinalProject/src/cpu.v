@@ -9,7 +9,7 @@ module cpu
 	reg [31:0] pc;
 
 	wire [32*cores-1:0] dataOut;
-	instructionmemory #(cores, "helloworld") im(.clk(clk),
+	instructionmemory #(cores, instruction_file) im(.clk(clk),
 												.address(pc),
 												.dataOut(dataOut));
 
@@ -40,6 +40,7 @@ module cpu
 										.pc_next(pc_next[i]),
 										.alu_src(alu_src[i]),
 										.alu_ctrl(alu_ctrl[i]),
+										.reg_we(reg_we[i]),
 										.reg_in(reg_in[i]),
 										.mem_we(mem_we[i]),
 										.beq(beq[i]),
@@ -54,12 +55,13 @@ module cpu
 
 	wire [cores-1:0] [31:0] regDataA;
 	wire [cores-1:0] [31:0] regDataB;
+	wire [cores-1:0] [31:0] regWriteData;
 	registerfile #(cores) regfile ( .clk(clk),
 									.write_enable(reg_we),
 									.write_address(aw),
 									.read_address_1(rs),
 									.read_address_2(rt),
-									.write_data(WRITE DATA), //TODO: Change
+									.write_data(regWriteData),
 									.read_data_1(regDataA),
 									.read_data_2(regDataB));
 
@@ -87,10 +89,22 @@ module cpu
 		end	
 	endgenerate
 
+	wire [cores-1:0] [31:0] memDataOut;
 	datamemory #(cores) dm (.clk(clk),
-							.dataIn,
-							.address,
-							.writeEnable
-							.dataOut);
+							.dataIn(regDataB),
+							.address(aluRes),
+							.writeEnable(mem_we),
+							.dataOut(memDataOut));
+
+	mux3 regwrite_mux (	.out(regWriteData),
+						.address(reg_in),
+						.input0(aluRes),
+						.input1(memDataOut),
+						.input2(pc + 4));
+
+	pcjumper #(cores) pcjump (	.pc_plus4(pc + 4),
+								.core_pcs(pcRes),
+								.core_controls(myPc),
+								.next_pc(pc));
 
 endmodule
