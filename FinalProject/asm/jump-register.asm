@@ -7,7 +7,7 @@ nop
 nop
 
 # PC = 4
-j DONE
+jr $t0
 nop
 nop
 nop
