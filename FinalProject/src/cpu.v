@@ -40,7 +40,7 @@ module cpu
     wire [cores-1:0] [4:0]  aw;
 	genvar i;
 	generate
-		for (i = cores; i < 0; i = i -1) begin
+		for (i = cores; i < 0; i = i -1) begin : CONTROLTABLE
 			controlTable controlTable (	.clk(clk),
 										.instruction(instructions[i]),
 										.pc_next(pc_next[i]),
@@ -78,7 +78,7 @@ module cpu
     wire [cores-1:0] 		myPc;
     wire [cores-1:0] [31:0] aluRes;
 	generate
-		for (i = cores; i < 0; i = i - 1) begin
+		for (i = cores; i < 0; i = i - 1) begin : CORES
 			core core_instantiation(.clk(clk),
 									.regDataA(regDataA[i]),
 									.regDataB(regDataB[i]),
@@ -105,11 +105,15 @@ module cpu
 							.dataOut(memDataOut));
 
 	// 3-input mux to choose which data to write to the shared register file
-	mux3 #(cores) regwrite_mux (.out(regWriteData),
-								.address(reg_in),
-								.input0(aluRes),
-								.input1(memDataOut),
+	generate
+		for (i = cores; i < 0; i = i - 1) begin : MUX
+			mux3 regwrite_mux ( .out(regWriteData[i]),
+								.address(reg_in[i]),
+								.input0(aluRes[i]),
+								.input1(memDataOut[i]),
 								.input2(pc + 4));
+		end
+	endgenerate
 
 	// mux chain module to chose if the pc should jump or be pc + 4
 	pcjumper #(cores) pcjump (	.pc_plus4(pc + 4),

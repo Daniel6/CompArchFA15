@@ -32,7 +32,7 @@ module mux3
 (
   output[31:0]    out,
   input[1:0]      address,
-  input[2:0][31:0]     input0, input1, input2
+  input[31:0]     input0, input1, input2
 );
 
   wire[31:0] mux[2:0];         // Create a 2D array of wires
