@@ -52,18 +52,45 @@ module cpu
 		end		
 	endgenerate
 
-	wire [cores-1:0] [31:0] read_data_1;
-	wire [cores-1:0] [31:0] read_data_2;
+	wire [cores-1:0] [31:0] regDataA;
+	wire [cores-1:0] [31:0] regDataB;
 	registerfile #(cores) regfile ( .clk(clk),
 									.write_enable(reg_we),
 									.write_address(aw),
 									.read_address_1(rs),
 									.read_address_2(rt),
-									.write_data(WRITE DATA),
-									.read_data_1(read_data_1),
-									.read_data_2(read_data_2));
+									.write_data(WRITE DATA), //TODO: Change
+									.read_data_1(regDataA),
+									.read_data_2(regDataB));
 
-	
 
+  
+    wire [cores-1:0] [31:0] pcRes;
+    wire [cores-1:0] 		myPc;
+    wire [cores-1:0] [31:0] aluRes;
+	generate
+		for (i = cores; i < 0; i = i - 1) begin
+			core core_instantiation(.clk(clk),
+									.regDataA(regDataA[i]),
+									.regDataB(regDataB[i]),
+									.imm(imm[i]),
+									.addr(target[i]),
+									.pc_next(pc_next[i]),
+									.alu_src(alu_src[i]),
+									.alu_ctrl(alu_ctrl[i]),
+									.beq(beq[i]),
+									.bne(bne[i]),
+									.pcIn(pc),
+									.pcRes(pcRes[i]),
+									.myPc(myPc[i]),
+									.aluRes(aluRes[i]));
+		end	
+	endgenerate
+
+	datamemory #(cores) dm (.clk(clk),
+							.dataIn,
+							.address,
+							.writeEnable
+							.dataOut);
 
 endmodule
