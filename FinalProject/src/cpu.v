@@ -6,19 +6,25 @@ module cpu
 (
 	input clk
 );
+	
+	// program counter
 	reg [31:0] pc;
 
+	// shared instruction memory
 	wire [32*cores-1:0] dataOut;
 	instructionmemory #(cores, instruction_file) im(.clk(clk),
 												.address(pc),
 												.dataOut(dataOut));
 
 
+	// module to split the vliw into cores number of 32 bit instructions
 	wire [cores-1:0] [32-1:0] instructions; 
 	vliwsplitter #(cores) splitter (.clk(clk),
 									.vliw(dataOut),
 									.instructions(instructions));
 
+	
+	// generate cores number of controlTable modules (instruciton decoder + control table)
 	wire [cores-1:0] [1:0] 	pc_next;
     wire [cores-1:0] 		alu_src;
     wire [cores-1:0] [1:0] 	alu_ctrl;
@@ -53,6 +59,7 @@ module cpu
 		end		
 	endgenerate
 
+	// shared register file
 	wire [cores-1:0] [31:0] regDataA;
 	wire [cores-1:0] [31:0] regDataB;
 	wire [cores-1:0] [31:0] regWriteData;
@@ -66,7 +73,7 @@ module cpu
 									.read_data_2(regDataB));
 
 
-  
+  	// generate cores number of core modules
     wire [cores-1:0] [31:0] pcRes;
     wire [cores-1:0] 		myPc;
     wire [cores-1:0] [31:0] aluRes;
@@ -89,6 +96,7 @@ module cpu
 		end	
 	endgenerate
 
+	// shared data memory
 	wire [cores-1:0] [31:0] memDataOut;
 	datamemory #(cores) dm (.clk(clk),
 							.dataIn(regDataB),
@@ -96,12 +104,14 @@ module cpu
 							.writeEnable(mem_we),
 							.dataOut(memDataOut));
 
+	// 3-input mux to choose which data to write to the shared register file
 	mux3 regwrite_mux (	.out(regWriteData),
 						.address(reg_in),
 						.input0(aluRes),
 						.input1(memDataOut),
 						.input2(pc + 4));
 
+	// mux chain module to chose if the pc should jump or be pc + 4
 	pcjumper #(cores) pcjump (	.pc_plus4(pc + 4),
 								.core_pcs(pcRes),
 								.core_controls(myPc),
