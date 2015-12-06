@@ -9,6 +9,7 @@ module cpu
 	
 	// program counter
 	reg [31:0] pc;
+	pc = 32'b0;
 
 	// shared instruction memory
 	wire [32*cores-1:0] dataOut;
