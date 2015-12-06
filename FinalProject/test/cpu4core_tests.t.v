@@ -216,7 +216,10 @@ module test4Core_SignedLessThan #(parameter instructions_root = "../instructions
 	cpu DUT #(.cores(4), .instruction_file({instructions_root, "slt.dat"})) (.clk(clk));
 	initial begin
 		#4;
-		if (cpu.registerfile.registers[2] !== 32'd1) begin
+		if (cpu.registerfile.registers[12] !== 32'd1 ||
+			cpu.registerfile.registers[13] !== 32'd0 ||
+			cpu.registerfile.registers[14] !== 32'd0 ||
+			cpu.registerfile.registers[15] !== 32'd0) begin
 			$display("4 Core SLT test failed.");
 		end
 	end
