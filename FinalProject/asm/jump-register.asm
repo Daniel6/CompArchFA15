@@ -1,7 +1,7 @@
 # Jump to a specific register location
 
 # PC = 0
-xori $t0, 12
+xori $t0, $zero, 12
 nop
 nop
 nop
