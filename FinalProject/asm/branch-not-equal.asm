@@ -2,8 +2,8 @@
 
 # load registers
 # PC = 0
-xori $t0, 0
-xori $t1, 1
+xori $t0, $zero, 0
+xori $t1, $zero, 1
 nop
 nop
 
