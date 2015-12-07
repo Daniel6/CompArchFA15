@@ -1,17 +1,21 @@
-SOURCES := $(shell find ./src -name '*.v')
+SOURCES := $(shell find ./src -type f -name '*.v')
+CPU_TEST_DIR := ./test/cpu_tests
+BIN := ./bin
+TEST_EXT := t.v
+VVP := $(patsubst $(CPU_TEST_DIR)/%.$(TEST_EXT),./bin/%.vvp,$(shell find $(CPU_TEST_DIR) -name '*.$(TEST_EXT)'))
+RUNS := $(patsubst ./bin/%.vvp,./bin/%.run,$(VVP))
 
-cputest: ./bin/add.vvp ./bin/beq.vvp ./bin/bne.vvp ./bin/j.vvp ./bin/jal.vvp ./bin/jr.vvp ./bin/lw.vvp ./bin/slt.vvp ./bin/sub.vvp ./bin/sw.vvp ./bin/xori.vvp
-	vvp ./bin/add.vvp
-	vvp ./bin/beq.vvp
-	vvp ./bin/bne.vvp
-	vvp ./bin/j.vvp
-	vvp ./bin/jal.vvp
-	vvp ./bin/jr.vvp
-	vvp ./bin/lw.vvp
-	vvp ./bin/slt.vvp
-	vvp ./bin/sub.vvp
-	vvp ./bin/sw.vvp
-	vvp ./bin/xori.vvp
+cputest: $(RUNS)
 
-./bin/%.vvp: $(SOURCES) ./test/cpu_tests/%.t.v
+$(BIN)/%.run: $(BIN)/%.vvp
+	vvp $<
+
+$(BIN)/%.vvp: $(SOURCES) $(CPU_TEST_DIR)/%.t.v
 	iverilog -g 2005-sv -o $@ $^
+
+clean:
+	find $(BIN) -type f -name '*' -exec rm {} \;
+
+.PHONY: clean
+
+.SECONDARY: $(VVP)
