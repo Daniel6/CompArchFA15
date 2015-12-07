@@ -25,6 +25,7 @@ module test4Core_JumpAndLink #(parameter instructions_root = "./instructions/");
 			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core JAL test passed.");
 			$write("%c[0m",27);
 		end
