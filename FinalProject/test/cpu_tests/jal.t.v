@@ -5,14 +5,15 @@
 		  of the jump due to pipelining of the CPU, but in our architecture we do not have pipelining, so the instruction at 
 		  PC+4 does not get executed before the jump happens.
 */
-module test4Core_JumpAndLink #(parameter instructions_root = "./instructions/");
+module test4Core_JumpAndLink #(parameter instructions_root = "./instructions/",
+							   parameter waveforms_root = "./waveforms/");
 	reg clk;
 	initial clk = 0;
 	always #1 clk = !clk;
 
 	cpu #(.cores(4), .instruction_file({instructions_root, "jump-and-link.dat"})) DUT8 (.clk(clk));
 	initial begin
-		$dumpfile("cpu8.vcd"); //dump info to create wave propagation later
+		$dumpfile({waveforms_root, "jal.vcd"}); //dump info to create wave propagation later
         $dumpvars(0, test4Core_JumpAndLink);
 		#2;
 		if (DUT8.pcOut !== 32'd8 ||

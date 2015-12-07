@@ -1,7 +1,8 @@
 /*
 	Test addition capability of 4 core processor
 */
-module test4Core_Addition #(parameter instructions_root = "./instructions/");
+module test4Core_Addition #(parameter instructions_root = "./instructions/",
+							parameter waveforms_root = "./waveforms/");
 	reg clk;
 	initial clk = 0;
 	always #1 clk = !clk;
@@ -9,7 +10,7 @@ module test4Core_Addition #(parameter instructions_root = "./instructions/");
 	cpu #(.cores(4), .instruction_file({instructions_root, "add-4-cores.dat"})) DUT1 (.clk(clk));
 
 	initial begin
-		$dumpfile("cpu1.vcd"); //dump info to create wave propagation later
+		$dumpfile({waveforms_root, "add.vcd"}); //dump info to create wave propagation later
         $dumpvars(0, test4Core_Addition);
 		#16;
 		if (DUT1.regfile.registers[12] !== 32'd4 ||

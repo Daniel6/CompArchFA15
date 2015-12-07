@@ -2,14 +2,15 @@
 	Test BEQ functionality of 4 core processor
 	similar to BNE but tests for equality instead of inequality
 */
-module test4Core_BranchEqual #(parameter instructions_root = "./instructions/");
+module test4Core_BranchEqual #(parameter instructions_root = "./instructions/",
+							   parameter waveforms_root = "./waveforms/");
 	reg clk;
 	initial clk = 0;
 	always #1 clk = !clk;
 
 	cpu #(.cores(4), .instruction_file({instructions_root, "branch-equal.dat"})) DUT10 (.clk(clk));
 	initial begin
-		$dumpfile("cpu10.vcd"); //dump info to create wave propagation later
+		$dumpfile({waveforms_root, "beq.vcd"}); //dump info to create wave propagation later
         $dumpvars(0, test4Core_BranchEqual);
 		#4;
 		if (DUT10.pcOut !== 32'd12) begin

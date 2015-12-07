@@ -2,14 +2,15 @@
 	Test SLT functionality of 4 core processor
 	compare two values and store either 1 or 0 in the result register representing boolean value of lessthan comparator
 */
-module test4Core_SetLessThan #(parameter instructions_root = "./instructions/");
+module test4Core_SetLessThan #(parameter instructions_root = "./instructions/",
+							   parameter waveforms_root = "./waveforms/");
 	reg clk;
 	initial clk = 0;
 	always #1 clk = !clk;
 
 	cpu #(.cores(4), .instruction_file({instructions_root, "slt-4-cores.dat"})) DUT11 (.clk(clk));
 	initial begin
-		$dumpfile("cpu11.vcd"); //dump info to create wave propagation later
+		$dumpfile({waveforms_root, "slt.vcd"}); //dump info to create wave propagation later
         $dumpvars(0, test4Core_SetLessThan);
 		#4;
 		if (DUT11.regfile.registers[12] !== 32'd1 ||

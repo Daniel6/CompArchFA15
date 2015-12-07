@@ -1,7 +1,8 @@
 /*
 	Test jumping capability of 4 core processor
 */
-module test4Core_jump #(parameter instructions_root = "./instructions/");
+module test4Core_jump #(parameter instructions_root = "./instructions/",
+						parameter waveforms_root = "./waveforms/");
 	reg clk;
 	reg[31:0] expected_pc;
 	initial clk = 0;
@@ -10,7 +11,7 @@ module test4Core_jump #(parameter instructions_root = "./instructions/");
 	cpu #(.cores(4), .instruction_file({instructions_root, "jump.dat"})) DUT2 (.clk(clk));
 
 	initial begin
-		$dumpfile("cpu2.vcd"); //dump info to create wave propagation later
+		$dumpfile({waveforms_root, "j.vcd"}); //dump info to create wave propagation later
         $dumpvars(0, test4Core_jump);
 		expected_pc = 32'd8;
 		#2;
