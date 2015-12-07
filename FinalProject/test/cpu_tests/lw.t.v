@@ -3,14 +3,15 @@
 	manually assign values to 4 memory addresses
 	load those 4 memory addresses into register file
 */
-module test4Core_LoadWord #(parameter instructions_root = "./instructions/");
+module test4Core_LoadWord #(parameter instructions_root = "./instructions/",
+							parameter waveforms_root = "./waveforms/");
 	reg clk;
 	initial clk = 0;
 	always #1 clk = !clk;
 
 	cpu #(.cores(4), .instruction_file({instructions_root, "load-4-cores.dat"})) DUT5 (.clk(clk));
 	initial begin
-		$dumpfile("cpu5.vcd"); //dump info to create wave propagation later
+		$dumpfile({waveforms_root, "lw.vcd"}); //dump info to create wave propagation later
         $dumpvars(0, test4Core_LoadWord);
 		DUT5.dm.memory[0] = 32'd100;
 		DUT5.dm.memory[1] = 32'd101;

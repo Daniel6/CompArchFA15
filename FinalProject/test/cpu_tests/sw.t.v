@@ -1,14 +1,15 @@
 /*
 	Test SW functionality of 4 core processor
 */
-module test4Core_StoreWord #(parameter instructions_root = "./instructions/");
+module test4Core_StoreWord #(parameter instructions_root = "./instructions/",
+							 parameter waveforms_root = "./waveforms/");
 	reg clk;
 	initial clk = 0;
 	always #1 clk = !clk;
 
 	cpu #(.cores(4), .instruction_file({instructions_root, "store-4-cores.dat"})) DUT6 (.clk(clk));
 	initial begin
-		$dumpfile("cpu6.vcd"); //dump info to create wave propagation later
+		$dumpfile({waveforms_root, "sw.vcd"}); //dump info to create wave propagation later
         $dumpvars(0, test4Core_StoreWord);
 		#4;
 		if (DUT6.dm.memory[0] !== 32'd3 ||
