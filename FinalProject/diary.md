@@ -39,3 +39,5 @@ Today we made a cpu module!!! So that means that assuming everything works and w
 Our JAL is different than ordinary MIPS JAL, it returns to PC+4 not PC+8.
 We worked on a lot of tests today, some of them work now! We were debugging our LW test and found an assembly error, that's good.
 We also discovered that we accidentally made a multi-cycle cpu instead of a single cycle one, so we fixed that.
+We had fun with jumping. Saying jump by 1 will jump 4 "normal" instructions in MIPS, but since we are saying 4 instructions is 1 instruction, the standard labels will need to be shifted right by 2 (trim overflow).
+Eg: A normal MIPS instruction will say jump by 0111. Because our vliw is 4 instructions, we say jump by 0001.

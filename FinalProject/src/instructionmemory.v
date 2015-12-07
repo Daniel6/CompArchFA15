@@ -26,7 +26,6 @@ module instructionmemory
     // end
 
     always @(address) begin
-        $display("ADDRESS %b", address>>2);
         dataOut <= memory[address>>2];
     end
 

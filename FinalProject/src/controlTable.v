@@ -69,7 +69,7 @@ always @ (op or funct) begin
 
         add: begin
 
-          $display("********* ADD **********");
+
            pc_next = 2'b0;
            reg_dst = 2'b1;
            alu_src = 1'b1;
@@ -84,7 +84,7 @@ always @ (op or funct) begin
 
         sub: begin
 
-          $display("********* SUB **********");
+
            pc_next = 2'b0;
            reg_dst = 2'b1;
            alu_src = 1'b1;
@@ -99,7 +99,7 @@ always @ (op or funct) begin
 
         slt: begin
 
-          $display("********* SLT **********");
+
            pc_next = 2'b0;
            reg_dst = 2'b1;
            alu_src = 1'b1;
@@ -114,7 +114,7 @@ always @ (op or funct) begin
 
         jr: begin
 
-          $display("********* JR **********");
+
            pc_next = 2'b10;
            reg_dst = 2'bx;
            alu_src = 1'bx;
@@ -129,7 +129,7 @@ always @ (op or funct) begin
 
         default: begin
 
-          $display("********* default alu **********");
+
            pc_next = 2'b0;
            reg_dst = 2'bx;
            alu_src = 1'bx;
@@ -148,7 +148,7 @@ always @ (op or funct) begin
 
     lw: begin
 
-      $display("********* LW **********");
+
        pc_next = 2'b0;
        reg_dst = 2'b0;
        alu_src = 1'b0;
@@ -163,7 +163,7 @@ always @ (op or funct) begin
 
     sw: begin
 
-      $display("********* SW **********");
+
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'b0;
@@ -177,7 +177,7 @@ always @ (op or funct) begin
     end
 
     j: begin    
-      $display("********* J **********");
+
        pc_next = 2'b1;
        reg_dst = 2'bx;
        alu_src = 1'bx;
@@ -192,7 +192,7 @@ always @ (op or funct) begin
 
     jal: begin
 
-      $display("********* JAL **********"); 
+
        pc_next = 2'b1;
        reg_dst = 2'b10;
        alu_src = 1'bx;
@@ -208,7 +208,7 @@ always @ (op or funct) begin
     beq_code: begin
 
 
-      $display("********* BEQ **********");
+
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'b1;
@@ -223,7 +223,7 @@ always @ (op or funct) begin
 
     bne_code: begin
 
-      $display("********* BNE **********");
+
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'b1;
@@ -238,7 +238,7 @@ always @ (op or funct) begin
 
     xori: begin
 
-      $display("********* XORI **********");
+
        pc_next = 2'b0;
        reg_dst = 2'b0;
        alu_src = 1'b0;
@@ -253,7 +253,7 @@ always @ (op or funct) begin
 
     default: begin
 
-      $display("********* default 2 **********");
+
        pc_next = 2'b0;
        reg_dst = 2'bx;
        alu_src = 1'bx;
@@ -267,8 +267,8 @@ always @ (op or funct) begin
     end
 
   endcase
-    /*$display("pc_next: %b", pc_next);
-    $display("op: %b", op);*/
+
+
 
 
 end
