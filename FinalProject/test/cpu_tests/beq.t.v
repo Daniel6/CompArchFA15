@@ -13,10 +13,14 @@ module test4Core_BranchEqual #(parameter instructions_root = "./instructions/");
         $dumpvars(0, test4Core_BranchEqual);
 		#4;
 		if (DUT10.pcOut !== 32'd12) begin
+			$write("%c[31m",27);
 			$display("4 Core BEQ test failed.");
+			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core BEQ test passed.");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end

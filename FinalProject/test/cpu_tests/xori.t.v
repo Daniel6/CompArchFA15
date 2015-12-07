@@ -17,10 +17,14 @@ module test4Core_xori #(parameter instructions_root = "./instructions/");
 			DUT3.regfile.registers[10] !== 32'd2 ||
 			DUT3.regfile.registers[11] !== 32'd2 ||
 			DUT3.regfile.registers[12] !== 32'd6) begin
+			$write("%c[31m",27);
 			$display("4 Core XORI test failed.");
+			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core XORI test passed.");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end

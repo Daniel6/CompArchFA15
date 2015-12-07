@@ -16,10 +16,14 @@ module test4Core_SetLessThan #(parameter instructions_root = "./instructions/");
 			DUT11.regfile.registers[13] !== 32'd0 ||
 			DUT11.regfile.registers[14] !== 32'd0 ||
 			DUT11.regfile.registers[15] !== 32'd0) begin
+			$write("%c[31m",27);
 			$display("4 Core SLT test failed.");
+			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core SLT test passed.");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end

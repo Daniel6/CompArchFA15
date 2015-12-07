@@ -21,10 +21,14 @@ module test4Core_LoadWord #(parameter instructions_root = "./instructions/");
 			DUT5.regfile.registers[13] !== DUT5.dm.memory[1] ||
 			DUT5.regfile.registers[14] !== DUT5.dm.memory[2] ||
 			DUT5.regfile.registers[15] !== DUT5.dm.memory[3]) begin
+			$write("%c[31m",27);
 			$display("4 Core LW test failed.");
+			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core LW test passed.");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end

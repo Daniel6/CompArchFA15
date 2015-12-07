@@ -16,10 +16,14 @@ module test4Core_Subtraction #(parameter instructions_root = "./instructions/");
 			DUT4.regfile.registers[13] !== 32'd1 ||
 			DUT4.regfile.registers[14] !== 32'd1 ||
 			DUT4.regfile.registers[15] !== 32'd0) begin
+			$write("%c[31m",27);
 			$display("4 Core SUB test failed.");
+			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core SUB test passed.");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end

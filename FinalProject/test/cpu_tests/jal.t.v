@@ -17,12 +17,16 @@ module test4Core_JumpAndLink #(parameter instructions_root = "./instructions/");
 		#2;
 		if (DUT8.pcOut !== 32'd8 ||
 			DUT8.regfile.registers[31] !== 32'd4) begin
+			$write("%c[31m",27);
 			$display("4 Core JAL test failed.");
+			$write("%c[35m",27);
 			$display("PC should be %d, got %d", 32'd8, DUT8.pcOut);
 			$display("Reg should be %d, got %d", 32'd4, DUT8.regfile.registers[31]);
+			$write("%c[0m",27);
 		end
 		else begin
 			$display("4 Core JAL test passed.");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end

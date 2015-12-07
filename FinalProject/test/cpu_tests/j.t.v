@@ -15,10 +15,14 @@ module test4Core_jump #(parameter instructions_root = "./instructions/");
 		expected_pc = 32'd8;
 		#2;
 		if (DUT2.pcOut !== expected_pc) begin
+			$write("%c[31m",27);
 			$display("4 Core J test failed. Expected PC %d but ended at %d", expected_pc, DUT2.pcOut);
+			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core J test passed.");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end

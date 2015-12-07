@@ -15,10 +15,14 @@ module test4Core_StoreWord #(parameter instructions_root = "./instructions/");
 			DUT6.dm.memory[1] !== 32'd2 ||
 			DUT6.dm.memory[2] !== 32'd1 ||
 			DUT6.dm.memory[3] !== 32'd0) begin
+			$write("%c[31m",27);
 			$display("4 Core SW test failed.");
+			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core SW test passed.");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end

@@ -13,10 +13,14 @@ module test4Core_BranchNotEqual #(parameter instructions_root = "./instructions/
         $dumpvars(0, test4Core_BranchNotEqual);
 		#4;
 		if (DUT9.pcOut !== 32'd12) begin
+			$write("%c[31m",27);
 			$display("4 Core BNE test failed expected PC %d, got %d", 32'd12, DUT9.pcOut);
+			$write("%c[0m",27);
 		end
 		else begin
+			$write("%c[32m",27);
 			$display("4 Core BNE test passed");
+			$write("%c[0m",27);
 		end
 		$finish;
 	end
