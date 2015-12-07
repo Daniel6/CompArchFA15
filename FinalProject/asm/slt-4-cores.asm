@@ -1,10 +1,10 @@
 # SLT
 
 # load registers
-xori $t0, 0
-xori $t1, 1
-xori $t2, 2
-xori $t3, 3
+xori $t0, $zero, 0
+xori $t1, $zero, 1
+xori $t2, $zero, 2
+xori $t3, $zero, 3
 
 # execute slt
 EXEC:
