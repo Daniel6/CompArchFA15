@@ -41,3 +41,6 @@ We worked on a lot of tests today, some of them work now! We were debugging our 
 We also discovered that we accidentally made a multi-cycle cpu instead of a single cycle one, so we fixed that.
 We had fun with jumping. Saying jump by 1 will jump 4 "normal" instructions in MIPS, but since we are saying 4 instructions is 1 instruction, the standard labels will need to be shifted right by 2 (trim overflow).
 Eg: A normal MIPS instruction will say jump by 0111. Because our vliw is 4 instructions, we say jump by 0001.
+
+###12/7
+Now that we have a working cpu, we have started writing tests. Today we made a test that was basically a bunch of ADD commands that were independent of eachother. It is a simple example of how our cpu can execute programs 4x as fast as a 1-core cpu since ours has 4 cores. We also made a more complex program, string reversal. This one was more interesting because it involved a loop that iterated over the string, flipping characters around. With a 1-core cpu, the loop took a maximum of 10 cycles to execute. With a 2 core cpu, it only took 5 cycles, and with a 4 core cpu it took 4!. It looks like there are diminishing returns on increasing the number of cores, this was expected since there is a limit to instruction parallelism.
