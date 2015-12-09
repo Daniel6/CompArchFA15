@@ -9,11 +9,11 @@ RUNS := $(patsubst ./bin/%.vvp,./bin/%.run,$(VVP))
 cputest: $(RUNS)
 
 $(BIN)/%.run: $(BIN)/%.vvp
+	mkdir -p $(WAVEFORMS)
 	vvp $<
 
 $(BIN)/%.vvp: $(SOURCES) $(CPU_TEST_DIR)/%.t.v
 	mkdir -p $(BIN)
-	mkdir -p $(WAVEFORMS)
 	iverilog -g 2005-sv -o $@ $^
 
 clean:

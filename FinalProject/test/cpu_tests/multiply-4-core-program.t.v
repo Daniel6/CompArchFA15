@@ -12,10 +12,12 @@ module test4Core_multiply #(parameter instructions_root = "./instructions/",
 	initial begin
 		$dumpfile({waveforms_root, "multiply.vcd"}); //dump info to create wave propagation later
         $dumpvars(0, test4Core_multiply);
-        #4
+        #200
 		if (DUT4.regfile.registers[2] !== 32'd10 ||
 			DUT4.regfile.registers[4] !== 32'd6) begin
 			$display("%d", DUT4.regfile.registers[29]);
+			$display("%d", DUT4.regfile.registers[2]);
+			$display("%d", DUT4.regfile.registers[4]);
 			$write("%c[31m",27);
 			$display("4 Core MULTIPLY test failed.");
 			$write("%c[0m",27);

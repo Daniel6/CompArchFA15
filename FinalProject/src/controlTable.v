@@ -177,7 +177,7 @@ module controlTable
 
 			end
 
-			j: begin    
+			j: begin
 
 			   	pc_next = 2'b1;
 			   	reg_dst = 2'bx;
