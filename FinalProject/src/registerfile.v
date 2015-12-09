@@ -22,7 +22,8 @@ module registerfile
   genvar i;
   generate
     for (i = cores-1; i >= 0; i = i - 1) begin : WRITE
-      always @(write_data or read_address_1 or read_address_2 or write_address or write_enable) begin
+      always @(posedge clk) begin
+      // always @(write_data or read_address_1 or read_address_2 or write_address or write_enable) begin
         // if write enable flag is given and
         // the register to write to is not
         // the constant $zero, allow it

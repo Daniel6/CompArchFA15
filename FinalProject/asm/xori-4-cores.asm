@@ -4,6 +4,11 @@
 START:
 xori $t1, $zero, 1
 xori $t2, $zero, 2
+nop
+nop
+
+nop
+nop
 xori $t3, $t1, 3
 xori $t4, $t2, 4
 
