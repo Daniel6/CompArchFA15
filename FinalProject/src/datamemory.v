@@ -24,7 +24,7 @@ module datamemory
     genvar i;
     generate
         for (i = cores-1; i >= 0; i = i - 1) begin : WRITE
-            always @(dataIn or address or writeEnable) begin
+            always @(posedge clk) begin
                 // if write enable flag is given, allow it
                 if (writeEnable[i]) begin
                     memory[address[i]] <= dataIn[i];

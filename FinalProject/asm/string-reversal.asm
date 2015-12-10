@@ -21,5 +21,6 @@ beq $t7, $zero, DONE # if address 1 is not less than address 2, we are done (end
 j LOOP #                                                                                 52
 
 DONE:
+# maybe do a bunch of load word ops in here to read all the data memory
 nop #                                                                                    56
 j DONE # infinite loop of nop to prevent overrunning instruction memory                  60
