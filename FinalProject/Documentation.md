@@ -24,6 +24,12 @@ Eg: n=27
 1-core: 122 cycles (100% speed)
 2-core: 68 cycles  (179%)
 4-core: 54 cycles  (226%)
+
+#### Array Sorting
+Use bubble sort to sort the array [14, 12, 13, 5, 9, 11, 3, 7, 10] stored in memory from highest to lowest.
+1-core: 388 cycles
+4-core: 297 cycles
+
 ### What programs run slower
 
 ## Area
