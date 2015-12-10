@@ -4,11 +4,11 @@ BIN := ./bin
 WAVEFORMS := ./waveforms
 TEST_EXT := t.v
 VVP := $(patsubst $(CPU_TEST_DIR)/%.$(TEST_EXT),./bin/%.vvp,$(shell find $(CPU_TEST_DIR) -name '*.$(TEST_EXT)'))
-RUNS := $(patsubst ./bin/%.vvp,./bin/%.run,$(VVP))
+RUNS := $(patsubst ./bin/%.vvp,%,$(VVP))
 
 cputest: $(RUNS)
 
-$(BIN)/%.run: $(BIN)/%.vvp
+%: $(BIN)/%.vvp
 	mkdir -p $(WAVEFORMS)
 	vvp $<
 
