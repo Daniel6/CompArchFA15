@@ -7,6 +7,7 @@
 module datamemory 
 #(
     parameter cores = 1
+    // parameter data = "datamemory.dat"
 )
 (
     input                           clk,
