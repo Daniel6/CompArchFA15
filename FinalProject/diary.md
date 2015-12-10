@@ -51,3 +51,6 @@ instruction 1 goes to control table 3
 instruction 2 goes to control table 2
 instruction 3 goes to control table 1
 instruction 4 goes to control table 0
+
+###12/10
+Today we worked on our tests some more, we finished the string reversal test, we have documented the results for 1-core execution, 4-core execution of the 1-core instruction set, and 4-core execution of a custom instruction set that takes advantage of our multi-core architecture. We saw results that match what we expected, diminishing returns when throwing more cores at the same instruction set, can be helped with a new instruction set designed to take advantage of multi-core processing.
