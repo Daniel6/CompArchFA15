@@ -1,5 +1,6 @@
 # Structure
 
+
 # Analysis
 
 ## Performance
@@ -74,3 +75,9 @@ Multiplies two variables in memory.
 ## Energy
 
 # Testing Strategy
+
+## Unit Tests
+
+## CPU Instruction Tests
+
+## Analysis Testings
