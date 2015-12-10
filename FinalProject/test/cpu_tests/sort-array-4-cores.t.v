@@ -22,7 +22,7 @@ module test4Core_Sort #(parameter instructions_root = "./instructions/",
 		DUT_SortArray_4_core.dm.memory[7] = 32'd6;
 		DUT_SortArray_4_core.dm.memory[8] = 32'd7;
 		DUT_SortArray_4_core.dm.memory[9] = 32'd10;
-		#450;
+		#600;
 
 		if (DUT_SortArray_4_core.dm.memory[0] !== 32'd14 ||
 			DUT_SortArray_4_core.dm.memory[1] !== 32'd13 ||
