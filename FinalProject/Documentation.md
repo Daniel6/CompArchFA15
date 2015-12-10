@@ -6,9 +6,10 @@
 ### What programs run faster
 ####String Reversal
 Reverse the order of chracters in a string of length n stored in memory
-1-core: 6 + 9(n/2-1) + 8 cycles
-2-core: 3 + 5(n/2) cycles
-4-core: 2 + 4(n/2) cycles
+1-core: 								6 + 9(n/2-1) + 8 cycles
+2-core: 								3 + 5(n/2) cycles
+4-core: 								2 + 4(n/2) cycles
+4-core (w/ multi-core optimization): 	3 + 3(n/2) cycles or 4 cycles if string is 1 char or less
 
 Eg: n=8
 1-core: 41 cycles (100% speed)
