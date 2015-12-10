@@ -6,7 +6,7 @@ TEST_EXT := t.v
 VVP := $(patsubst $(CPU_TEST_DIR)/%.$(TEST_EXT),./bin/%.vvp,$(shell find $(CPU_TEST_DIR) -name '*.$(TEST_EXT)'))
 RUNS := $(patsubst ./bin/%.vvp,%,$(VVP))
 
-cputest: $(RUNS)
+default: $(RUNS)
 
 %: $(BIN)/%.vvp
 	mkdir -p $(WAVEFORMS)
