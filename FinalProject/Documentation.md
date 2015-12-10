@@ -2,7 +2,7 @@
 
 # Analysis
 
-## Speed
+## Performance
 ### What programs run faster
 #### String Reversal
 Reverse the order of characters in a string of length n stored in memory
