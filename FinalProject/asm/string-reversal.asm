@@ -4,7 +4,7 @@
 
 xori $t0, $zero, 0 # base address of string                                              0
 xori $t1, $zero, 7  # length of string - 1                                               4
-xori $t2, $zero, 1  # const val = 1                                                      8
+xori $t2, $zero, 1  # const val = 1                                                      8                                              
 
 add $t3, $zero, $t0 # address 1, set it to point at the first char of the string         12
 add $t5, $t0, $t1   # address 2, set to point to character on other side of string       16
@@ -21,6 +21,5 @@ beq $t7, $zero, DONE # if address 1 is not less than address 2, we are done (end
 j LOOP #                                                                                 52
 
 DONE:
-# maybe do a bunch of load word ops in here to read all the data memory
 nop #                                                                                    56
 j DONE # infinite loop of nop to prevent overrunning instruction memory                  60
