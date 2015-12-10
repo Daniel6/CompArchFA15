@@ -24,6 +24,30 @@ Eg: n=27
 1-core: 122 cycles (100% speed)
 2-core: 68 cycles  (179%)
 4-core: 54 cycles  (226%)
+
+#### Division
+
+Compute integer division with a remainder
+
+1-core: 7 + 4*(a/b)
+2-core: 5 + 3*(a/b)
+4-core: 4 + 3*(a/b)
+
+Eg. a=5, b=2
+1-core: 15 cycles (100% speed)
+2-core: 11 cycles (127%)
+4-core: 10 cycles (133%)
+
+Eg. a=100, b=1
+1-core: 407 cycles (100% speed)
+2-core: 305 cycles (125%)
+4-core: 304 cycles (125%)
+
+Eg. a=0, b=2
+1-core: 7 cycles (100% speed)
+2-core: 5 cycles (129%)
+4-core: 4 cycles (143%)
+
 ### What programs run slower
 
 ## Area
