@@ -39,6 +39,12 @@ Use bubble sort to sort the array [14, 12, 13, 5, 9, 11, 3, 7, 10] stored in mem
 - 1-core: 388 cycles (100% speed)
 - 4-core: 297 cycles
 
+### Multiply
+Multiplies two variables in memory. 
+
+- 1-Core: 34 Cycles
+- 4-Core: 17 Cycles
+
 ### What programs run slower
 
 ## Area
