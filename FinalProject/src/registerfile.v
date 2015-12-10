@@ -16,7 +16,8 @@ module registerfile
   
   initial begin
     registers[5'd0] = 32'b0;     // $zero
-    registers[5'd29] = 32'h3ffc; // $sp
+    registers[5'd29] = 32'd512; // $sp
+    registers[5'd31] = 32'b0;     // $zero
   end
 
   genvar i;
