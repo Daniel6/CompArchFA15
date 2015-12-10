@@ -72,3 +72,5 @@ Multiplies two variables in memory.
 ## Area
 
 ## Energy
+
+# Testing Strategy
