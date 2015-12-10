@@ -19,7 +19,7 @@ module datamemory
 
     reg [31:0] memory [2**10-1:0];
 
-    // initial $readmemh(datamemory, memory);
+    // initial $readmemb(data, memory);
 
     genvar i;
     generate
