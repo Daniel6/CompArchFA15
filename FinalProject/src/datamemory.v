@@ -7,7 +7,6 @@
 module datamemory 
 #(
     parameter cores = 1
-    // parameter data = "datamemory.dat"
 )
 (
     input                           clk,
@@ -19,12 +18,12 @@ module datamemory
 
     reg [31:0] memory [2**10-1:0];
 
-    // initial $readmemh(datamemory, memory);
+    // initial $readmemb(data, memory);
 
     genvar i;
     generate
         for (i = cores-1; i >= 0; i = i - 1) begin : WRITE
-            always @(dataIn or address or writeEnable) begin
+            always @(posedge clk) begin
                 // if write enable flag is given, allow it
                 if (writeEnable[i]) begin
                     memory[address[i]] <= dataIn[i];
