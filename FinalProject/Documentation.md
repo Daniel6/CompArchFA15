@@ -1,8 +1,9 @@
 # Structure
 
+
 # Analysis
 
-## Speed
+## Performance
 ### What programs run faster
 #### String Reversal
 Reverse the order of characters in a string of length n stored in memory
@@ -72,3 +73,11 @@ Multiplies two variables in memory.
 ## Area
 
 ## Energy
+
+# Testing Strategy
+
+## Unit Tests
+
+## CPU Instruction Tests
+
+## Analysis Testings

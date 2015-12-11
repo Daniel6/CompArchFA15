@@ -1,10 +1,11 @@
 main:
 	#add $t0, $zero, $zero # Copy the base address of your array into $t0
     	lw  $t0, number 
-    	   
+ 
    	xori $t7, $zero, 0x0024
     	xori $t6, $zero, 4
     	xori $a2, $zero, 1
+    	
     	add $t0, $t0, $t7    # 4 bytes per int * 10 ints = 40 bytes 
     	nop
     	nop
