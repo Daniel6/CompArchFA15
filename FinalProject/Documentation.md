@@ -62,11 +62,23 @@ Use bubble sort to sort the array [14, 12, 13, 5, 9, 11, 3, 7, 10] stored in mem
 - 1-core: 388 cycles (100% speed)
 - 4-core: 297 cycles
 
-### Multiply
+#### Multiply
 Multiplies two variables in memory.
 
 - 1-Core: 34 Cycles
 - 4-Core: 17 Cycles
+
+#### Linear Search
+Searches for a list for a given number. Stores the index of where the number was found.
+
+- 1-Core: 5 + 4*(N/2) cycles on average
+- 2-Core: 4 + 2*(N/2) cycles on average
+- 4-Core: 3 + 2*(N/8) cycles on average
+
+Eg. Search for 5 in list of 1-10
+- 1-Core: 23 cycles
+- 2-Core: 14 cycles
+- 4-Core: 7 cycles
 
 ### What programs run slower
 
