@@ -1,8 +1,10 @@
-
-
 # Structure
 
+## Block Diagram
 ![block diagram](img/block-diagram.png)
+
+## Overall Schematic
+![overall schematic](img/multi-core architecture-v3.png)
 
 # Analysis
 
@@ -63,7 +65,7 @@ Eg. a=0, b=2
 Use bubble sort to sort the array [14, 12, 13, 5, 9, 11, 3, 7, 10] stored in memory from highest to lowest.
 
 - 1-core: 388 cycles (100% speed)
-- 4-core: 297 cycles
+- 4-core: 297 cycles (131%)
 
 ### Multiply
 Multiplies two variables in memory.
@@ -203,13 +205,13 @@ The grand total size is calculated in the following table.
 ## Energy
 
 # Testing Strategy
-Our testing strategy was centered around using unit tests at the component, instruction, and program level. For our unit tests at the component level, we had tests to confirm that each one perform what we want. At the instruction level, the tests were focused on making sure that our cpu outputs conform to the MIPS guidelines. Finally, at the program level, we ran programs using our CPU, and compared the register results against what we want/expect. 
+Our testing strategy was centered around using unit tests at the component, instruction, and program level. For our unit tests at the component level, we had tests to confirm that each one perform what we want. At the instruction level, the tests were focused on making sure that our cpu outputs conform to the MIPS guidelines. Finally, at the program level, we ran programs using our CPU, and compared the register results against what we want/expect.
 ## Unit Tests
 
 
 ## CPU Instruction Tests
 
-The CPU was tested to perform a set of inidividual MIPS ISA instructions properly. The list of operations that the CPU can perform are as follows:
+The CPU was tested to perform a set of individual MIPS ISA instructions properly. The list of operations that the CPU can perform are as follows:
 
 * LW
 * SW
