@@ -45,12 +45,8 @@ Eg: A normal MIPS instruction will say jump by 0111. Because our vliw is 4 instr
 ###12/7
 Now that we have a working cpu, we have started writing tests. Today we made a test that was basically a bunch of ADD commands that were independent of eachother. It is a simple example of how our cpu can execute programs 4x as fast as a 1-core cpu since ours has 4 cores. We also made a more complex program, string reversal. This one was more interesting because it involved a loop that iterated over the string, flipping characters around. With a 1-core cpu, the loop took a maximum of 10 cycles to execute. With a 2 core cpu, it only took 5 cycles, and with a 4 core cpu it took 4!. It looks like there are diminishing returns on increasing the number of cores, this was expected since there is a limit to instruction parallelism.
 
-###12/8
-Today I learned that:
-instruction 1 goes to control table 3
-instruction 2 goes to control table 2
-instruction 3 goes to control table 1
-instruction 4 goes to control table 0
-
 ###12/10
 Today we worked on our tests some more, we finished the string reversal test, we have documented the results for 1-core execution, 4-core execution of the 1-core instruction set, and 4-core execution of a custom instruction set that takes advantage of our multi-core architecture. We saw results that match what we expected, diminishing returns when throwing more cores at the same instruction set, can be helped with a new instruction set designed to take advantage of multi-core processing.
+
+###12/12
+Today we used vivado to benchmark our CPU executing the reverse-string test. It got really hot! Vivado did not want to play with multi-core functionality because of the possibiility for data hazards, so we extrapolated from the single-core benchmark. Thankfully, Vivado breaks down the power consumption between I/O, static, signals, and logic. We estimated that the only things that would increase in power draw with more cores would be the signals and logic, which also happened to be the two major power consumers.
