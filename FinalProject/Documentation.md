@@ -1,5 +1,8 @@
+
+
 # Structure
 
+![block diagram](img/block-diagram.png)
 
 # Analysis
 
@@ -115,7 +118,7 @@ The instruction memory stores program operations. Each instruction requires 32N 
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
 | D Flip Flop with Enable |  32,768  |    11     |   360,448  |
-| 1024 Option Mux         |  32      |  34,813   |  1,113,002 |
+| 1024 Option Mux         |  32N     |  34,813   |  1,113,002 |
 |                         |          |           |  1,473,450 |
 
 ### VLIW Splitter
