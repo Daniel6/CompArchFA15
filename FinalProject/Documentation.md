@@ -1,4 +1,6 @@
 # Structure
+## How do we do it?
+Essentially, we had taken a basic single-cycle CPU and used it as a basis for making a CPU that operates on multiple instructions at a time. The key element to how we had done this was the use of very long instruction words (VLIW) that were composed of four MIPS instructions concatenated together. The CPU splits the VLIW into n words that are then each fed into the core of a single-cycle cpu. Essentially, we have four processing units in one CPU that share the same program counter, registers, instruction memory, and data memory. 
 
 ## Block Diagram
 ![block diagram](img/block-diagram.png)
@@ -220,7 +222,18 @@ For four cores, we multiplied signals and logic by four
 # Testing Strategy
 Our testing strategy was centered around using unit tests at the component, instruction, and program level. For our unit tests at the component level, we had tests to confirm that each one perform what we want. At the instruction level, the tests were focused on making sure that our cpu outputs conform to the MIPS guidelines. Finally, at the program level, we ran programs using our CPU, and compared the register results against what we want/expect.
 ## Unit Tests
+Each component used in our CPU was tested to verify that they worked as planned. The list of components tested are listed below:
 
+*controlTable
+*core
+*datamemory
+*instructiondecoder
+*instructionmemory
+*pcjumper
+*registerfile
+*vliwsplitter
+
+These components will form the backbone of our CPU. 
 
 ## CPU Instruction Tests
 
