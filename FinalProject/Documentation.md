@@ -92,4 +92,20 @@ Eg. Search for 5 in list of 1-10
 
 ## CPU Instruction Tests
 
+The CPU was tested to perform a set of inidividual MIPS ISA instructions properly. The list of operations that the CPU can perform are as follows:
+
+* LW
+* SW
+* J
+* JR
+* JAL
+* BNE
+* BEQ
+* XORI
+* ADD
+* SUB
+* SLT
+
+For each of these instructions, the CPU performed the desired operation on all four cores in parallel. After each of these fundamental operations executed properly, larger programs could be built using many instructions simultaneously.
+
 ## Analysis Testings
