@@ -1,8 +1,18 @@
 # What did we do?
-We have designed and written, in verilog, a MIPS single cycle pseudo multi-core processor utilizing VLIW. Our goal is that our processor can run programs quicker than the standard MIPS single cycle processor. Please our [project abstract](https://github.com/Daniel6/CompArchFA15/blob/master/FinalProject/Project%20Abstract.md "ProjectAbstract.md") for details!
+
+Project in a nutshell: "Strap 4 CPU's together so that they can do 4 things at once or one thing 4x as fast!"
+
+We have designed and written, in verilog, a MIPS single cycle pseudo multi-core processor utilizing VLIW. Our goal is that our processor can run programs quicker than the standard MIPS single cycle processor. Please our [project abstract](https://github.com/Daniel6/CompArchFA15/blob/master/FinalProject/Project%20Abstract.md "ProjectAbstract.md") for details! Furthermore, we wanted to explore possible analysis that could be done in comparing the increase in performance of our quad-core CPU to the increase in power and energy required to sustain this increase in speed.
 
 # Why did we do it?
 
+The single-cycle MIPS CPU that we made in our Computer Architecture course, while functional and cool, is very simplified compared to what is used in industry level real processors.
+
+Why we found this interesting: The concept of multi-core CPU's is a proven way of making computers faster overall, it is a popular architecture for modern processors (modern architectures have tons of extra stuff compared to ours of course). It is cool to make our own proof of concept of how real world computers work!
+
+We wanted to explore how multi-core CPUS work, but at a simplified enough level to allow us to implement it ourselves. We wanted to learn about how multi-core CPUS increase performance and the advantages and hazards of parallel computation. We decided to go down the path we chose (a VLIW approach to multiple cores) because we knew that for at least certain types of programs, performance would be greatly improved, and a VLIW version of multiple cores would be feasible for us to implement. By taking the VLIW approach, we could easily base our ISA off of MIPS, with which we are already familiar, and not have to become too bogged down with understanding hardware which does changes instructions to avoid data dependencies (this was not the purpose of our project: we wanted to explore the increase in speed of our quad-core CPU); in VLIW, data dependency problems are [pushed to the compiler to handle](https://en.wikipedia.org/wiki/Very_long_instruction_word#Overview "VLIW Wikipedia").
+
+Traditionally, VLIW is known to be useful in [GPUs](https://en.wikipedia.org/wiki/Very_long_instruction_word#Implementations) (graphical processing units). We hoped (and eventually found success) that our quad-core CPU would be able to perform multiple independent instructions very quickly. For example, parallelism could greatly increase the speed of vector/matrix computations (since each element in a vector is independent of the others), and also increase the speed of any typical program after optimization for our specific CPU.
 
 # Structure
 ## How do we do it?
@@ -241,6 +251,7 @@ For four cores, we multiplied signals and logic by four to find our energy cost.
 
 # Testing Strategy
 Our testing strategy was centered around using unit tests at the component, instruction, and program level. For our unit tests at the component level, we had tests to confirm that each one perform what we want. At the instruction level, the tests were focused on making sure that our cpu outputs conform to the MIPS guidelines. Finally, at the program level, we ran programs using our CPU, and compared the register results against what we want/expect.
+
 ## Unit Tests
 Each component used in our CPU was tested to verify that they worked as planned. The list of components tested are listed below:
 
