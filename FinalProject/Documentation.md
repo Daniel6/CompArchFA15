@@ -95,7 +95,7 @@ Use bubble sort to sort the array [14, 12, 13, 5, 9, 11, 3, 7, 10] stored in mem
 - 1-core: 388 cycles (100% speed)
 - 4-core: 297 cycles (131%)
 
-### Multiply
+#### Multiply
 Multiplies two variables in memory.
 
 - 1-Core: 34 Cycles (100% speed)
@@ -146,8 +146,8 @@ The instruction memory stores program operations. Each instruction requires 32N 
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
 | D Flip Flop with Enable |  32,768  |    11     |   360,448  |
-| 1024 Option Mux         |  32N     |  34,813   |  1,113,002 |
-|                         |          |           |  1,473,450 |
+| 1024 Option Mux         |  32N     |  34,813   |  1,114,016N |
+|                         |          |           |  1,114,016N + 360,448 |
 
 ### VLIW Splitter
 
@@ -181,6 +181,7 @@ The register file is similar to the instruction memory. The registers support wr
 ### Data Memory
 
 The data memory is exactly the same as the instruction memory, except that it holds data values rather than instructions. The sizing is the same.
+// TODO: Change ports!!!
 
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
@@ -214,6 +215,8 @@ The following components are used within the cpu, outside of any other subcompon
 | OR Gate      |  1       |    3      |   3        |
 |              |          |           |  36        |
 
+
+//NEED
 #### Total
 
 The grand total size is calculated in the following table.
@@ -221,7 +224,7 @@ The grand total size is calculated in the following table.
 | Subcomponent       | Quantity | Unit Size    | Total Size  |
 |:------------------:|:--------:|:------------:|:-----------:|
 | Adder              |  1       |    480       |   480       |
-| Program Counter    |  1       |    288       |   288       |
+| Program Counter    |  1       |    416       |   416       |
 | Instruction Memory |  1       |   1,473,450  |   1,473,450 |
 | Registers          |  1       |    49,957    |   49,957    |
 | Data Memory        |  1       |    1,473,450 |   1,473,450 |
@@ -294,4 +297,4 @@ The CPU was tested to perform a set of individual MIPS ISA instructions properly
 For each of these instructions, the CPU performed the desired operation on all four cores in parallel. After each of these fundamental operations executed properly, larger programs could be built using many instructions simultaneously.
 
 ## Analysis Testings
-We had two sets of CPU tests. The first set was designed to ensure CPU functionality by testing various use cases of every valid command. The second was composed of benchmarking programs such as multiply and divide pseudo commands, array sorting, and array flipping. The benchmarking programs came in several variations, for different numbers of cores. Some had additional changes to facilitate execution on multiple cores.
+Our analysis testing was composed of benchmarking programs such as multiply and divide pseudo commands, array sorting, and array flipping. The benchmarking programs came in several variations, for different numbers of cores. Some had additional changes to facilitate execution on multiple cores. We found that for every test, the more cores, the better the performance. We also found that our CPU shows diminishing marginal returns: for each core added, the performance increases by a smaller amount. Overall, we think that the increase and power and area is worth the increase in performance.
