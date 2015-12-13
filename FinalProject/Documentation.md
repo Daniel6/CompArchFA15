@@ -14,7 +14,7 @@ For a log of our progress, please take a look at our [diary](https://github.com/
 ![block diagram](img/block-diagram.png)
 
 ## Overall Schematic
-![overall schematic](img/multi-core architecture-v4.eps)
+![overall schematic](img/multi-core architecture-v4.png)
 
 # Analysis
 
