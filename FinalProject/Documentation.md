@@ -1,3 +1,9 @@
+# What did we do?
+We have designed and written, in verilog, a MIPS single cycle pseudo multi-core processor utilizing VLIW. Our goal is that our processor can run programs quicker than the standard MIPS single cycle processor. Please our [project abstract](https://github.com/Daniel6/CompArchFA15/blob/master/FinalProject/Project%20Abstract.md "ProjectAbstract.md") for details!
+
+# Why did we do it?
+
+
 # Structure
 ## How do we do it?
 Essentially, we had taken a basic single-cycle CPU and used it as a basis for making a CPU that operates on multiple instructions at a time. The key element to how we had done this was the use of very long instruction words (VLIW) that were composed of four MIPS instructions concatenated together. The CPU splits the VLIW into n words that are then each fed into the core of a single-cycle cpu. Essentially, we have four processing units in one CPU that share the same program counter, registers, instruction memory, and data memory.
@@ -44,24 +50,24 @@ Eg: n=27
 
 Compute integer division with a remainder
 
-1-core: 7 + 4*(a/b)
-2-core: 5 + 3*(a/b)
-4-core: 4 + 3*(a/b)
+- 1-core: 7 + 4*(a/b)
+- 2-core: 5 + 3*(a/b)
+- 4-core: 4 + 3*(a/b)
 
 Eg. a=5, b=2
-1-core: 15 cycles (100% speed)
-2-core: 11 cycles (127%)
-4-core: 10 cycles (133%)
+- 1-core: 15 cycles (100% speed)
+- 2-core: 11 cycles (127%)
+- 4-core: 10 cycles (133%)
 
 Eg. a=100, b=1
-1-core: 407 cycles (100% speed)
-2-core: 305 cycles (125%)
-4-core: 304 cycles (125%)
+- 1-core: 407 cycles (100% speed)
+- 2-core: 305 cycles (125%)
+- 4-core: 304 cycles (125%)
 
 Eg. a=0, b=2
-1-core: 7 cycles (100% speed)
-2-core: 5 cycles (129%)
-4-core: 4 cycles (143%)
+- 1-core: 7 cycles (100% speed)
+- 2-core: 5 cycles (129%)
+- 4-core: 4 cycles (143%)
 
 #### Array Sorting
 Use bubble sort to sort the array [14, 12, 13, 5, 9, 11, 3, 7, 10] stored in memory from highest to lowest.
@@ -208,7 +214,7 @@ The grand total size is calculated in the following table.
 
 We used Vivado to synthesize area and energy analysis. However, we were only able to synthesize analysis on the one core version of our CPU, and not a four core model, because Vivado would not allow us to have multiple modules writing to RAM.
 
-As a result, we assumed that we can multiply parts of the energy and area analysis by four to come up with a rough estimate of what our four core CPU would cost. Below are images displaying the synthesis for our one core CPU.
+As a result, we assumed that we can multiply parts of the energy and area analysis by four to come up with a rough estimate of what our four core CPU would cost; our four core CPU has all of the same components as our one core CPU, but with some components replicated four times and others having more inputs/outputs. Below are images displaying the synthesis for our one core CPU.
 
 #### Cost Synthesis
 
@@ -217,7 +223,21 @@ As a result, we assumed that we can multiply parts of the energy and area analys
 #### Power Breakdown
 ![power breakdown](img/power-breakdown.png)
 
-For four cores, we multiplied signals and logic by four
+For four cores, we multiplied signals and logic by four to find our energy cost. We chose to multiply signals and logic by four because most of these parts are found in our core, of which our four core CPU has four.
+
+#### Four Core Power Breakdown
+| Dynamic      | Amount (W) |
+|:------------:|:----------:|
+| Signals      | 76.432     |
+| Logic        | 34.436     |
+| I/O          | .981       |
+| Total Dynamic| 111.849    |
+| **Static**   | .749       |
+| **Total**    | 112.598    |
+
+
+#### Four Core Area
+
 
 # Testing Strategy
 Our testing strategy was centered around using unit tests at the component, instruction, and program level. For our unit tests at the component level, we had tests to confirm that each one perform what we want. At the instruction level, the tests were focused on making sure that our cpu outputs conform to the MIPS guidelines. Finally, at the program level, we ran programs using our CPU, and compared the register results against what we want/expect.
