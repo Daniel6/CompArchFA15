@@ -3,6 +3,12 @@ We have designed and written, in verilog, a MIPS single cycle pseudo multi-core 
 
 # Why did we do it?
 
+## Open-ended Development
+Feel free to build on top of our progress, some interesting areas for further development would be:
+* MIPS -> our custom VLIW compiler
+* Replace our single-cycle architecture with a [pipelined](https://en.wikipedia.org/wiki/Instruction_pipelining) system
+* Expansion of [valid instructions](http://www.mrc.uidaho.edu/mrc/people/jff/digital/MIPSir.html) (currently only supporting J, JR, JAL, BEQ, BNE, ADD, SUB, XORI, LW, SW, SLT)
+* Multiple levels of data memory. Currently all cores read/write to one memory, modern CPU's use multiple levels, giving each core its own private memory and mirroring changes to a larger shared memory. You would also want to implement [cache invalidation](https://en.wikipedia.org/wiki/Cache_invalidation) if implementing this architecture.
 
 # Structure
 ## How do we do it?
