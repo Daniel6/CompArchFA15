@@ -1,6 +1,6 @@
 # Structure
 ## How do we do it?
-Essentially, we had taken a basic single-cycle CPU and used it as a basis for making a CPU that operates on multiple instructions at a time. The key element to how we had done this was the use of very long instruction words (VLIW) that were composed of four MIPS instructions concatenated together. The CPU splits the VLIW into n words that are then each fed into the core of a single-cycle cpu. Essentially, we have four processing units in one CPU that share the same program counter, registers, instruction memory, and data memory. 
+Essentially, we had taken a basic single-cycle CPU and used it as a basis for making a CPU that operates on multiple instructions at a time. The key element to how we had done this was the use of very long instruction words (VLIW) that were composed of four MIPS instructions concatenated together. The CPU splits the VLIW into n words that are then each fed into the core of a single-cycle cpu. Essentially, we have four processing units in one CPU that share the same program counter, registers, instruction memory, and data memory.
 
 ## Block Diagram
 ![block diagram](img/block-diagram.png)
@@ -204,23 +204,36 @@ The grand total size is calculated in the following table.
 | OR Gate            |  1       |    3         |   3         |
 |                    |          |              |   3,004,074 |
 
-## Energy
+## Area and Energy Synthesis
+
+We used Vivado to synthesize area and energy analysis. However, we were only able to synthesize analysis on the one core version of our CPU, and not a four core model, because Vivado would not allow us to have multiple modules writing to RAM.
+
+As a result, we assumed that we can multiply parts of the energy and area analysis by four to come up with a rough estimate of what our four core CPU would cost. Below are images displaying the synthesis for our one core CPU.
+
+#### Cost Synthesis
+
+![cost synthesis](img/we-melted-the-cpu-again.png)
+
+#### Power Breakdown
+![power breakdown](img/power-breakdown.png)
+
+For four cores, we multiplied signals and logic by four
 
 # Testing Strategy
 Our testing strategy was centered around using unit tests at the component, instruction, and program level. For our unit tests at the component level, we had tests to confirm that each one perform what we want. At the instruction level, the tests were focused on making sure that our cpu outputs conform to the MIPS guidelines. Finally, at the program level, we ran programs using our CPU, and compared the register results against what we want/expect.
 ## Unit Tests
 Each component used in our CPU was tested to verify that they worked as planned. The list of components tested are listed below:
 
-*controlTable
-*core
-*datamemory
-*instructiondecoder
-*instructionmemory
-*pcjumper
-*registerfile
-*vliwsplitter
+* controlTable
+* core
+* datamemory
+* instructiondecoder
+* instructionmemory
+* pcjumper
+* registerfile
+* vliwsplitter
 
-These components will form the backbone of our CPU. 
+These components will form the backbone of our CPU.
 
 ## CPU Instruction Tests
 
