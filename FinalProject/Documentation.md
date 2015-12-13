@@ -1,7 +1,7 @@
-# What did we do?
+## What did we do?
 We have designed and written, in verilog, a MIPS single cycle pseudo multi-core processor utilizing VLIW. Our goal is that our processor can run programs quicker than the standard MIPS single cycle processor. Please our [project abstract](https://github.com/Daniel6/CompArchFA15/blob/master/FinalProject/Project%20Abstract.md "ProjectAbstract.md") for details!
 
-# Why did we do it?
+## Why did we do it?
 
 ## Open-ended Development
 Feel free to build on top of our progress, some interesting areas for further development would be:
