@@ -12,7 +12,7 @@ Essentially, we had taken a basic single-cycle CPU and used it as a basis for ma
 ![block diagram](img/block-diagram.png)
 
 ## Overall Schematic
-![overall schematic](img/multi-core architecture-v3.png)
+![overall schematic](img/multi-core architecture-v4.eps)
 
 # Analysis
 
