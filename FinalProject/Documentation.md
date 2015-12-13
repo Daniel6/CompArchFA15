@@ -4,7 +4,7 @@ Project in a nutshell: "Strap 4 CPU's together so that they can do 4 things at o
 
 We have designed and written, in verilog, a MIPS single cycle pseudo multi-core processor utilizing VLIW. Our goal is that our processor can run programs quicker than the standard MIPS single cycle processor. Please our [project abstract](https://github.com/Daniel6/CompArchFA15/blob/master/FinalProject/Project%20Abstract.md "ProjectAbstract.md") for details! Furthermore, we wanted to explore possible analysis that could be done in comparing the increase in performance of our quad-core CPU to the increase in power and energy required to sustain this increase in speed.
 
-# Why did we do it?
+## Why did we do it?
 
 The single-cycle MIPS CPU that we made in our Computer Architecture course, while functional and cool, is very simplified compared to what is used in industry level real processors.
 
@@ -14,15 +14,25 @@ We wanted to explore how multi-core CPUS work, but at a simplified enough level 
 
 Traditionally, VLIW is known to be useful in [GPUs](https://en.wikipedia.org/wiki/Very_long_instruction_word#Implementations) (graphical processing units). We hoped (and eventually found success) that our quad-core CPU would be able to perform multiple independent instructions very quickly. For example, parallelism could greatly increase the speed of vector/matrix computations (since each element in a vector is independent of the others), and also increase the speed of any typical program after optimization for our specific CPU.
 
+## Open-ended Development
+Feel free to build on top of our progress, some interesting areas for further development would be:
+* MIPS -> our custom VLIW compiler
+* Replace our single-cycle architecture with a [pipelined](https://en.wikipedia.org/wiki/Instruction_pipelining) system
+* Expansion of [valid instructions](http://www.mrc.uidaho.edu/mrc/people/jff/digital/MIPSir.html) (currently only supporting J, JR, JAL, BEQ, BNE, ADD, SUB, XORI, LW, SW, SLT)
+* Multiple levels of data memory. Currently all cores read/write to one memory, modern CPU's use multiple levels, giving each core its own private memory and mirroring changes to a larger shared memory. You would also want to implement [cache invalidation](https://en.wikipedia.org/wiki/Cache_invalidation) if implementing this architecture.
+
+
 # Structure
 ## How do we do it?
-Essentially, we had taken a basic single-cycle CPU and used it as a basis for making a CPU that operates on multiple instructions at a time. The key element to how we had done this was the use of very long instruction words (VLIW) that were composed of four MIPS instructions concatenated together. The CPU splits the VLIW into n words that are then each fed into the core of a single-cycle cpu. Essentially, we have four processing units in one CPU that share the same program counter, registers, instruction memory, and data memory.
+We have taken a basic single-cycle CPU and used it as a basis for making a CPU that operates on multiple instructions at a time. The key element to how we have done this was the use of very long instruction words (VLIW) that were composed of four MIPS instructions concatenated together. The CPU splits the VLIW into n words that are then each fed into the core of a single-cycle cpu. Essentially, we have four processing units in one CPU that share the same program counter, registers, instruction memory, and data memory.
+
+For a log of our progress, please take a look at our [diary](https://github.com/Daniel6/CompArchFA15/blob/master/FinalProject/diary.md).
 
 ## Block Diagram
 ![block diagram](img/block-diagram.png)
 
 ## Overall Schematic
-![overall schematic](img/multi-core architecture-v3.png)
+![overall schematic](img/multi-core architecture-v4.png)
 
 # Analysis
 
@@ -31,29 +41,29 @@ Essentially, we had taken a basic single-cycle CPU and used it as a basis for ma
 #### String Reversal
 Reverse the order of characters in a string of length n stored in memory
 
-- 1-core: 								6 + 9(n/2-1) + 8 cycles
-- 2-core: 								3 + 5(n/2) cycles
-- 4-core: 								2 + 4(n/2) cycles
-- 4-core (w/ multi-core optimization): 	3 + 3(n/2) cycles or 4 cycles if string is 1 char or less
+- 1-core:                               6 + 9(n/2-1) + 8 cycles
+- 2-core:                               3 + 5(n/2) cycles
+- 4-core:                               2 + 4(n/2) cycles
+- 4-core (w/ multi-core optimization):  3 + 3(n/2) cycles or 4 cycles if string is 1 char or less
 
 Eg: n=8
 
-- 1-core: 							 41 cycles (100% speed)
-- 2-core: 							 23 cycles (178%)
-- 4-core: 							 18 cycles (228%)
+- 1-core:                              41 cycles (100% speed)
+- 2-core:                              23 cycles (178%)
+- 4-core:                              18 cycles (228%)
 - 4-core (w/ multi-core optimization): 15 cycles (273%)
 
 Eg: n=3
 
-- 1-core: 							 14 cycles (100% speed)
-- 2-core: 							 8 cycles  (175%)
-- 4-core: 							 6 cycles  (233%)
+- 1-core:                              14 cycles (100% speed)
+- 2-core:                              8 cycles  (175%)
+- 4-core:                              6 cycles  (233%)
 - 4-core (w/ multi-core optimization): 4 cycles  (350%)
 
 Eg: n=27
-- 1-core: 							 122 cycles (100% speed)
-- 2-core: 							 68 cycles  (179%)
-- 4-core: 							 54 cycles  (226%)
+- 1-core:                              122 cycles (100% speed)
+- 2-core:                              68 cycles  (179%)
+- 4-core:                              54 cycles  (226%)
 - 4-core (w/ multi-core optimization): 42 cycles  (286%)
 
 #### Division
@@ -248,7 +258,6 @@ For four cores, we multiplied signals and logic by four to find our energy cost.
 
 #### Four Core Area
 
-
 # Testing Strategy
 Our testing strategy was centered around using unit tests at the component, instruction, and program level. For our unit tests at the component level, we had tests to confirm that each one perform what we want. At the instruction level, the tests were focused on making sure that our cpu outputs conform to the MIPS guidelines. Finally, at the program level, we ran programs using our CPU, and compared the register results against what we want/expect.
 
@@ -285,3 +294,4 @@ The CPU was tested to perform a set of individual MIPS ISA instructions properly
 For each of these instructions, the CPU performed the desired operation on all four cores in parallel. After each of these fundamental operations executed properly, larger programs could be built using many instructions simultaneously.
 
 ## Analysis Testings
+We had two sets of CPU tests. The first set was designed to ensure CPU functionality by testing various use cases of every valid command. The second was composed of benchmarking programs such as multiply and divide pseudo commands, array sorting, and array flipping. The benchmarking programs came in several variations, for different numbers of cores. Some had additional changes to facilitate execution on multiple cores.
