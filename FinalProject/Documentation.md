@@ -6,7 +6,9 @@ We have designed and written, in verilog, a MIPS single cycle pseudo multi-core 
 
 # Structure
 ## How do we do it?
-Essentially, we had taken a basic single-cycle CPU and used it as a basis for making a CPU that operates on multiple instructions at a time. The key element to how we had done this was the use of very long instruction words (VLIW) that were composed of four MIPS instructions concatenated together. The CPU splits the VLIW into n words that are then each fed into the core of a single-cycle cpu. Essentially, we have four processing units in one CPU that share the same program counter, registers, instruction memory, and data memory.
+We have taken a basic single-cycle CPU and used it as a basis for making a CPU that operates on multiple instructions at a time. The key element to how we have done this was the use of very long instruction words (VLIW) that were composed of four MIPS instructions concatenated together. The CPU splits the VLIW into n words that are then each fed into the core of a single-cycle cpu. Essentially, we have four processing units in one CPU that share the same program counter, registers, instruction memory, and data memory.
+
+For a log of our progress, please take a look at our [diary](https://github.com/Daniel6/CompArchFA15/blob/master/FinalProject/diary.md).
 
 ## Block Diagram
 ![block diagram](img/block-diagram.png)
