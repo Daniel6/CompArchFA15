@@ -282,3 +282,4 @@ The CPU was tested to perform a set of individual MIPS ISA instructions properly
 For each of these instructions, the CPU performed the desired operation on all four cores in parallel. After each of these fundamental operations executed properly, larger programs could be built using many instructions simultaneously.
 
 ## Analysis Testings
+We had two sets of CPU tests. The first set was designed to ensure CPU functionality by testing various use cases of every valid command. The second was composed of benchmarking programs such as multiply and divide pseudo commands, array sorting, and array flipping. The benchmarking programs came in several variations, for different numbers of cores. Some had addititonal changes to facilitate execution on multiple cores.
