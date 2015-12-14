@@ -93,7 +93,8 @@ Eg. a=0, b=2
 Use bubble sort to sort the array [14, 12, 13, 5, 9, 11, 3, 7, 10] stored in memory from highest to lowest.
 
 - 1-core: 388 cycles (100% speed)
-- 4-core: 297 cycles (131%)
+- 2-core: 312 cycles (124%)
+- 4-core: 298 cycles (130%)
 
 #### Multiply
 Multiplies two variables in memory.
