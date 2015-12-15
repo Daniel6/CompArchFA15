@@ -142,8 +142,6 @@ In order to increment the program counter after each cycle, an adder is used. Th
 
 The instruction memory stores program operations. Each instruction requires 32N bits of space, where N is the number of cores in our CPU. Based on the input address supplied, a corresponding instruction will be output at the positive edge of each clock cycle. We estimate the size of this component as follows.
 
-//TODO: Change
-
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
 | D Flip Flop with Enable |  32,768  |    11     |   360,448  |
@@ -175,20 +173,22 @@ The register file is similar to the instruction memory. The registers support wr
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
 | D Flip Flop with Enable |  1024    |    11     |   11,264   |
-| 32 Option Mux           |  64      |  605      |  38,693    |
-|                         |          |           |  49,957    |
+| 32 Option Mux           |  64N      |  605      |  38,693N  |
+| 5-1024 Decoder          |  32N      |    80  |    2,560N    |
+|                         |          |           |  11,264 +41,253N    |
 
 
 ### Data Memory
 
 The data memory is exactly the same as the instruction memory, except that it holds data values rather than instructions. The sizing is the same.
-// TODO: Change ports!!!
+
 
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
 | D Flip Flop with Enable |  32,768  |    11     |   360,448  |
-| 1024 Option Mux         |  32      |  34,813   |  1,113,002 |
-|                         |          |           |  1,473,450 |
+| 1024 Option Mux         |  32N     |  34,813   |  1,113,002N |
+| 5-1024 Decoder          |  32N     |    80     | 2,560 |
+|                         |          |           |  360,448 +  1,115,562N |
 
 
 ### ALU
@@ -226,13 +226,13 @@ The grand total size is calculated in the following table.
 |:------------------:|:--------:|:------------:|:-----------:|
 | Adder              |  1       |    480       |   480       |
 | Program Counter    |  1       |    416       |   416       |
-| Instruction Memory |  1       |   1,473,450  |   1,473,450 |
-| Registers          |  1       |    49,957    |   49,957    |
-| Data Memory        |  1       |    1,473,450 |   1,473,450 |
-| ALU                |  1       |    6,413     |   6,413     |
-| AND Gate           |  11      |    3         |   33        |
-| OR Gate            |  1       |    3         |   3         |
-|                    |          |              |   3,004,074 |
+| Instruction Memory |  1       |   1,473,450  |  1,114,016N + 360,448  |
+| Registers          |  1       |    49,957    |   11,264 +41,253N       |
+| Data Memory        |  1       |    360,448 +  1,115,562N  |   360,448 +  1,115,562N |
+| ALU                |  N       |    6,413     |   6,413N     |
+| AND Gate           |  11N      |    3         |   33N        |
+| OR Gate            |  1N       |    3         |   3N         |
+|                    |          |              |   733,056 + 2,277,280N  |
 
 ## Area and Energy Synthesis
 
@@ -259,8 +259,6 @@ For four cores, we multiplied signals and logic by four to find our energy cost.
 | **Static**   | .749       |
 | **Total**    | 112.598    |
 
-
-#### Four Core Area
 
 # Testing Strategy
 Our testing strategy was centered around using unit tests at the component, instruction, and program level. For our unit tests at the component level, we had tests to confirm that each one perform what we want. At the instruction level, the tests were focused on making sure that our cpu outputs conform to the MIPS guidelines. Finally, at the program level, we ran programs using our CPU, and compared the register results against what we want/expect.
