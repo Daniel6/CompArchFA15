@@ -166,8 +166,6 @@ The concatenator merges three values into a single 32 bit value. This is simply 
 
 ### Register File
 
-//TODO: Change ports
-
 The register file is similar to the instruction memory. The registers support writing to one of the 32 locations at a time and reading from two different address simultaneously. The estimated size is as follows.
 
 | Subcomponent            | Quantity | Unit Size | Total Size |
@@ -217,7 +215,6 @@ The following components are used within the cpu, outside of any other subcompon
 |              |          |           |  36        |
 
 
-//NEED
 #### Total
 
 The grand total size is calculated in the following table.
