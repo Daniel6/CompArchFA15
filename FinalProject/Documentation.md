@@ -142,6 +142,7 @@ In order to increment the program counter after each cycle, an adder is used. Th
 
 The instruction memory stores program operations. Each instruction requires 32N bits of space, where N is the number of cores in our CPU. Based on the input address supplied, a corresponding instruction will be output at the positive edge of each clock cycle. We estimate the size of this component as follows.
 
+//TODO: Change
 
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
@@ -167,26 +168,27 @@ The concatenator merges three values into a single 32 bit value. This is simply 
 
 ### Register File
 
+//TODO: Change ports
+
 The register file is similar to the instruction memory. The registers support writing to one of the 32 locations at a time and reading from two different address simultaneously. The estimated size is as follows.
 
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
 | D Flip Flop with Enable |  1024    |    11     |   11,264   |
-| 32 Option Mux           |  64N      |  605      |  38,693N    |
-| 5-32 Decoder            |  32N       |    80     |    2560N
-|                         |          |           |  11,264 + 41,253N  |
+| 32 Option Mux           |  64      |  605      |  38,693    |
+|                         |          |           |  49,957    |
 
 
 ### Data Memory
 
 The data memory is exactly the same as the instruction memory, except that it holds data values rather than instructions. The sizing is the same.
+// TODO: Change ports!!!
 
 | Subcomponent            | Quantity | Unit Size | Total Size |
 |:-----------------------:|:--------:|:---------:|:----------:|
 | D Flip Flop with Enable |  32,768  |    11     |   360,448  |
-| 1024 Option Mux         |  32N     |  34,813   |  1,113,002N |
-| 10-1024 Decoder         |  32N     |  5,130  |      164,160N |
-|                         |          |           |  360,448 + 1,277,162N|
+| 1024 Option Mux         |  32      |  34,813   |  1,113,002 |
+|                         |          |           |  1,473,450 |
 
 
 ### ALU
